@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Visitas Registradas</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
+</h:head>
+
+<h:body class="container mt-4" style="max-width: 96%">
+
+    <h:form id="formTabla">
+        <p:messages id="msgsSalida" showDetail="false" closable="true"
+                    style="position:absolute; top:10px; left:10px; width:450px; z-index:1000;" />
+        <div class="card p-4 shadow-lg">
+
+            <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 20px;">
+                <h:outputLabel value="ID Visitante"/>
+                <p:inputText id="idVisitante" value="#{visitanteBean.idVisitanteFiltro}" style="width: 200px;">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel value="Fecha Visita"/>
+                <p:inputMask id="fechaVisita" value="#{visitanteBean.fechaVisitaFiltro}" style="width: 200px;" mask="99/99/9999"/>
+
+                <p:commandButton value="Buscar"
+                                 action="#{visitanteBean.buscarVisitantes()}"
+                                 update="formTabla"
+                                 styleClass="ui-button-primary"
+                                 icon="pi pi-search"
+                                 style="margin-left: 10px;"/>
+            </div>
+
+            <div class="text-start mb-3">
+                <p:commandButton value="Nuevo Visitante" action="#{visitanteBean.crearVisitante()}"
+                                 icon="pi pi-plus-circle" styleClass="ui-button-success"
+                                 oncomplete="PF('dlgRegistrarVisitante').show()" update=":formRegistro"/>
+            </div>
+
+            <p:dataTable var="visitante" value="#{visitanteBean.visitantesFiltrados}">
+
+                <p:column headerText="ID Visita">
+                    <h:outputText value="#{visitante.idVisita}"/>
+                </p:column>
+
+                <p:column headerText="Documento Visitante">
+                    <h:outputText value="#{visitante.idVisitante}">
+                        <f:convertNumber type="number" groupingUsed="true"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Nombre Visitante">
+                    <h:outputText value="#{visitante.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Area Destino">
+                    <h:outputText value="#{visitante.areaDestino}"/>
+                </p:column>
+
+                <p:column headerText="Fecha Ingreso">
+                    <h:outputText value="#{visitante.fechaIngreso}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Fecha Egreso">
+                    <h:outputText value="#{visitante.fechaEgreso}">
+                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Estado">
+                    <h:outputText value="#{visitante.estado}"/>
+                </p:column>
+
+                <p:column headerText="Autorizador">
+                    <h:outputText value="#{visitante.empleado}"/>
+                </p:column>
+
+                <p:column headerText="Salida">
+                    <p:commandButton action="#{visitanteBean.cambiarEstadoVisitante(visitante)}"
+                                     update=":formTabla, formTabla:msgsSalida" icon="pi pi-eraser" styleClass="ui-button-danger"
+                                     disabled="#{visitante.estado eq 'Terminado'}"/>
+                </p:column>
+
+                <p:column headerText="Ver Detalles">
+                    <p:commandButton actionListener="#{visitanteBean.setVisitanteDto(visitante)}"
+                                     icon="pi pi-pencil" styleClass="ui-button-warning"
+                                     oncomplete="PF('dlgDetalles').show()" update=":formDetalles"/>
+                </p:column>
+            </p:dataTable>
+        </div>
+    </h:form>
+
+    <h:form id="formRegistro">
+        <p:messages id="msgsRegistro" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+        <p:dialog header="Registro Visitante" widgetVar="dlgRegistrarVisitante" modal="true" resizable="false"
+                  width="550">
+            <p:panelGrid id="grid" columns="2" style="width:100%;">
+
+                <h:outputLabel for="documentoVisitante" value="Documento Visitante:"/>
+                <p:inputText id="documentoVisitante" value="#{visitanteBean.visitanteDto.idVisitante}"
+                             required="true" requiredMessage="El documento del visitante es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="nombreVisitante" value="Nombre Visitante:"/>
+                <p:inputText id="nombreVisitante" value="#{visitanteBean.visitanteDto.nombre}"
+                             required="true" requiredMessage="El nombre del visitante es obligatorio">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+                </p:inputText>
+
+                <h:outputLabel for="areaDestino" value="Area Destino:"/>
+                <p:inputText id="areaDestino" value="#{visitanteBean.visitanteDto.areaDestino}"
+                             required="true" requiredMessage="El área de destino es obligatoria">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ 0123456789]/i"/>
+                </p:inputText>
+
+                <h:outputLabel for="autorizador" value="Autorizador"/>
+                <p:selectOneMenu id="autorizador" value="#{visitanteBean.empleadoDto.idEmpleado}" class="form-select">
+                    <f:selectItems value="#{empleadoBean.listarEmpleados()}" var="empleado"
+                                   itemLabel="#{empleado.nombre}" itemValue="#{empleado.idEmpleado}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Registrar" action="#{visitanteBean.registrarVisitante()}"
+                                 icon="pi pi-save" styleClass="ui-button-success"
+                                 update=":formTabla, formRegistro:grid, formRegistro:msgsRegistro"
+                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarVisitante').hide()"/>
+                <p:commandButton value="Cancelar" onclick="PF('dlgRegistrarVisitante').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-secondary"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formDetalles">
+        <p:dialog header="Detalle Visitante" widgetVar="dlgDetalles" modal="true" resizable="false" width="550">
+            <p:panelGrid columns="2" style="width:100%;">
+
+                <h:outputLabel value="Documento Visitante:"/>
+                <h:outputText value="#{visitanteBean.visitanteDto.idVisitante}"/>
+
+                <h:outputLabel value="Nombre Visitante:"/>
+                <h:outputText value="#{visitanteBean.visitanteDto.nombre}"/>
+
+                <h:outputLabel value="Estado Visita:"/>
+                <h:outputText value="#{visitanteBean.visitanteDto.estado}"/>
+
+                <h:outputLabel value="Área:"/>
+                <h:outputText value="#{visitanteBean.visitanteDto.areaDestino}"/>
+
+                <h:outputLabel value="Autorizador:"/>
+                <h:outputText value="#{visitanteBean.visitanteDto.empleado.nombre}"/>
+
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgDetalles').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-secondary"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+</h:body>
+</html>
