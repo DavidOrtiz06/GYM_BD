@@ -6,8 +6,10 @@ import co.edu.unbosque.GYM_BD.repositories.SuscripcionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class SuscripcionService {
@@ -30,6 +32,8 @@ public class SuscripcionService {
 
     public SuscripcionDTO registrarSuscripcion(SuscripcionDTO suscripcion) {
         suscripcion.setEstado("Activo");
+        suscripcion.setFechaInicio(LocalDateTime.now());
+        suscripcion.setFechaFin(suscripcion.getFechaInicio().plusMonths(suscripcion.getMeses()));
         return modelMapper.map(suscripcionRepository.save(modelMapper.map(suscripcion, Suscripcion.class)), SuscripcionDTO.class);
     }
 }

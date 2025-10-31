@@ -1,12 +1,9 @@
 package co.edu.unbosque.GYM_BD.model.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "suscripcion")
@@ -17,13 +14,16 @@ public class Suscripcion implements Serializable {
     private int idSuscripcion;
 
     @Column(name = "FECHA_INICIO_SUSCRIPCION")
-    private Date fechaInicio;
+    private LocalDateTime fechaInicio;
 
     @Column(name = "FECHA_FIN_SUSCRIPCION")
-    private Date fechaFin;
+    private LocalDateTime fechaFin;
 
     @Column(name = "ESTADO_SUSCRIPCION")
     private String estado;
+
+    @Column(name = "MESES_SUSCRIPCION")
+    private int meses;
 
     public Suscripcion() {}
 
@@ -35,19 +35,19 @@ public class Suscripcion implements Serializable {
         this.idSuscripcion = idSuscripcion;
     }
 
-    public Date getFechaInicio() {
+    public LocalDateTime getFechaInicio() {
         return fechaInicio;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
+    public void setFechaInicio(LocalDateTime fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
 
-    public Date getFechaFin() {
+    public LocalDateTime getFechaFin() {
         return fechaFin;
     }
 
-    public void setFechaFin(Date fechaFin) {
+    public void setFechaFin(LocalDateTime fechaFin) {
         this.fechaFin = fechaFin;
     }
 
@@ -57,5 +57,13 @@ public class Suscripcion implements Serializable {
 
     public void setEstado(String estado) {
         this.estado = estado;
+    }
+
+    public int getMeses() {
+        return meses;
+    }
+
+    public void setMeses(int meses) {
+        this.meses = meses;
     }
 }
