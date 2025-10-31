@@ -8,10 +8,10 @@ import java.util.List;
 @Stateless
 public class ClienteService implements InterfaceService<ClienteDTO>{
 
-    private final ApiService apiService;
+    private ApiService apiService;
 
-    public ClienteService(ApiService apiService) {
-        this.apiService = apiService;
+    public ClienteService() {
+        apiService = new ApiService();
     }
 
     @Override
@@ -20,7 +20,12 @@ public class ClienteService implements InterfaceService<ClienteDTO>{
     }
 
     @Override
-    public List<ClienteDTO> listar() {
+    public List<ClienteDTO> listar() throws JsonProcessingException {
         return apiService.listar("clientes", ClienteDTO.class);
+    }
+
+    @Override
+    public void eliminar(ClienteDTO clienteDTO) {
+
     }
 }

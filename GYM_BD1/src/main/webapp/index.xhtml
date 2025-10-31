@@ -6,8 +6,9 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
       xmlns:p="http://primefaces.org/ui">
+
 <h:head>
-    <title>Visitas Registradas</title>
+    <title>GYM</title>
     <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"/>
 </h:head>
@@ -20,76 +21,79 @@
         <div class="card p-4 shadow-lg">
 
             <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 20px;">
-                <h:outputLabel value="ID Visitante"/>
-                <p:inputText id="idVisitante" value="#{visitanteBean.idVisitanteFiltro}" style="width: 200px;">
+                <h:outputLabel value="ID Cliente"/>
+                <p:inputText id="idVisitante" value="#{clienteBean.idClienteFiltro}" style="width: 200px;">
                     <p:keyFilter mask="num"/>
                 </p:inputText>
 
-                <h:outputLabel value="Fecha Visita"/>
-                <p:inputMask id="fechaVisita" value="#{visitanteBean.fechaVisitaFiltro}" style="width: 200px;" mask="99/99/9999"/>
-
                 <p:commandButton value="Buscar"
-                                 action="#{visitanteBean.buscarVisitantes()}"
+                                 action="#{clienteBean.buscarClientes()}"
                                  update="formTabla"
                                  styleClass="ui-button-primary"
                                  icon="pi pi-search"
                                  style="margin-left: 10px;"/>
             </div>
 
-            <div class="text-start mb-3">
-                <p:commandButton value="Nuevo Visitante" action="#{visitanteBean.crearVisitante()}"
-                                 icon="pi pi-plus-circle" styleClass="ui-button-success"
-                                 oncomplete="PF('dlgRegistrarVisitante').show()" update=":formRegistro"/>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p:commandButton value="Nuevo Cliente" action="#{clienteBean.crearCliente()}"
+                                 icon="pi pi-plus-circle"
+                                 styleClass="ui-button-success"
+                                 oncomplete="PF('dlgRegistrarCliente').show()"
+                                 update=":formRegistro"/>
+
+                <div class="d-flex gap-2">
+                    <p:commandButton value="1 Mes"
+                                     icon="pi pi-star"
+                                     style="background-color: #f1c40f; color: black; border: none;"
+                                     actionListener="#{suscripcionBean.seleccionarMeses(1)}"
+                                     oncomplete="PF('dlgSuscripcion').show()"
+                                     update=":formSuscripcion"/>
+                    <p:commandButton value="3 Meses"
+                                     icon="pi pi-star"
+                                     style="background-color: #f1c40f; color: black; border: none;"
+                                     actionListener="#{suscripcionBean.seleccionarMeses(3)}"
+                                     oncomplete="PF('dlgSuscripcion').show()"
+                                     update=":formSuscripcion"/>
+                    <p:commandButton value="6 Meses"
+                                     icon="pi pi-star"
+                                     style="background-color: #f1c40f; color: black; border: none;"
+                                     actionListener="#{suscripcionBean.seleccionarMeses(6)}"
+                                     oncomplete="PF('dlgSuscripcion').show()"
+                                     update=":formSuscripcion"/>
+                    <p:commandButton value="12 Meses"
+                                     icon="pi pi-star"
+                                     style="background-color: #f1c40f; color: black; border: none;"
+                                     actionListener="#{suscripcionBean.seleccionarMeses(12)}"
+                                     oncomplete="PF('dlgSuscripcion').show()"
+                                     update=":formSuscripcion"/>
+                </div>
             </div>
 
-            <p:dataTable var="visitante" value="#{visitanteBean.visitantesFiltrados}">
-
-                <p:column headerText="ID Visita">
-                    <h:outputText value="#{visitante.idVisita}"/>
-                </p:column>
-
-                <p:column headerText="Documento Visitante">
-                    <h:outputText value="#{visitante.idVisitante}">
+            <p:dataTable var="cliente" value="#{clienteBean.clientesFiltrados}">
+                <p:column headerText="Numero Documento">
+                    <h:outputText value="#{cliente.numDocumentoCliente}">
                         <f:convertNumber type="number" groupingUsed="true"/>
                     </h:outputText>
                 </p:column>
 
-                <p:column headerText="Nombre Visitante">
-                    <h:outputText value="#{visitante.nombre}"/>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{cliente.nombre}"/>
                 </p:column>
 
-                <p:column headerText="Area Destino">
-                    <h:outputText value="#{visitante.areaDestino}"/>
+                <p:column headerText="Correo">
+                    <h:outputText value="#{cliente.correo}"/>
                 </p:column>
 
-                <p:column headerText="Fecha Ingreso">
-                    <h:outputText value="#{visitante.fechaIngreso}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
-                    </h:outputText>
-                </p:column>
-
-                <p:column headerText="Fecha Egreso">
-                    <h:outputText value="#{visitante.fechaEgreso}">
-                        <f:convertDateTime pattern="dd/MM/yyyy HH:mm" type="localDateTime"/>
-                    </h:outputText>
+                <p:column headerText="Numero Telefono">
+                    <h:outputText value="#{cliente.numTelefono}"/>
                 </p:column>
 
                 <p:column headerText="Estado">
-                    <h:outputText value="#{visitante.estado}"/>
+                    <h:outputText value="#{cliente.estado}"/>
                 </p:column>
 
-                <p:column headerText="Autorizador">
-                    <h:outputText value="#{visitante.empleado}"/>
-                </p:column>
-
-                <p:column headerText="Salida">
-                    <p:commandButton action="#{visitanteBean.cambiarEstadoVisitante(visitante)}"
-                                     update=":formTabla, formTabla:msgsSalida" icon="pi pi-eraser" styleClass="ui-button-danger"
-                                     disabled="#{visitante.estado eq 'Terminado'}"/>
-                </p:column>
-
-                <p:column headerText="Ver Detalles">
-                    <p:commandButton actionListener="#{visitanteBean.setVisitanteDto(visitante)}"
+                <p:column headerText="Ver Detalles Suscripción">
+                    <p:commandButton actionListener="#{clienteBean.setClienteDto(cliente)}"
                                      icon="pi pi-pencil" styleClass="ui-button-warning"
                                      oncomplete="PF('dlgDetalles').show()" update=":formDetalles"/>
                 </p:column>
@@ -97,45 +101,70 @@
         </div>
     </h:form>
 
-    <h:form id="formRegistro">
-        <p:messages id="msgsRegistro" showDetail="false" closable="true"
+    <h:form id="formSuscripcion">
+        <p:messages id="msgsSuscripcion" showDetail="false" closable="true"
                     style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
-        <p:dialog header="Registro Visitante" widgetVar="dlgRegistrarVisitante" modal="true" resizable="false"
-                  width="550">
-            <p:panelGrid id="grid" columns="2" style="width:100%;">
-
-                <h:outputLabel for="documentoVisitante" value="Documento Visitante:"/>
-                <p:inputText id="documentoVisitante" value="#{visitanteBean.visitanteDto.idVisitante}"
-                             required="true" requiredMessage="El documento del visitante es obligatorio">
-                    <p:keyFilter mask="num"/>
-                </p:inputText>
-
-                <h:outputLabel for="nombreVisitante" value="Nombre Visitante:"/>
-                <p:inputText id="nombreVisitante" value="#{visitanteBean.visitanteDto.nombre}"
-                             required="true" requiredMessage="El nombre del visitante es obligatorio">
-                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
-                </p:inputText>
-
-                <h:outputLabel for="areaDestino" value="Area Destino:"/>
-                <p:inputText id="areaDestino" value="#{visitanteBean.visitanteDto.areaDestino}"
-                             required="true" requiredMessage="El área de destino es obligatoria">
-                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ 0123456789]/i"/>
-                </p:inputText>
-
-                <h:outputLabel for="autorizador" value="Autorizador"/>
-                <p:selectOneMenu id="autorizador" value="#{visitanteBean.empleadoDto.idEmpleado}" class="form-select">
-                    <f:selectItems value="#{empleadoBean.listarEmpleados()}" var="empleado"
-                                   itemLabel="#{empleado.nombre}" itemValue="#{empleado.idEmpleado}"/>
-                </p:selectOneMenu>
+        <p:dialog header="Confirmar Suscripción" widgetVar="dlgSuscripcion" modal="true"
+                  resizable="false" width="400" closable="false">
+            <p:panelGrid columns="1" style="width:100%; text-align:center;">
+                <h:outputText value="¿Desea confirmar la suscripción por:" style="font-weight:bold;"/>
+                <h:outputText value="#{suscripcionBean.suscripcionDto.meses} Mes(es)" style="font-size:18px; color:#f39c12;"/>
             </p:panelGrid>
 
             <f:facet name="footer">
-                <p:commandButton value="Registrar" action="#{visitanteBean.registrarVisitante()}"
+                <div class="d-flex justify-content-center gap-2">
+                    <p:commandButton value="Confirmar" icon="pi pi-check"
+                                     actionListener="#{suscripcionBean.registrarSuscripcion()}"
+                                     update=":formTabla, :formSuscripcion"
+                                     oncomplete="if (!args.validationFailed) { PF('dlgSuscripcion').hide() }"/>
+                    <p:commandButton value="Cancelar" icon="pi pi-times-circle"
+                                     styleClass="ui-button-secondary"
+                                     onclick="PF('dlgSuscripcion').hide();" type="button"/>
+                </div>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formRegistro">
+        <p:messages id="msgsRegistro" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+        <p:dialog header="Registro Cliente" widgetVar="dlgRegistrarCliente" modal="true"
+                  resizable="false" width="550" closable="false">
+            <p:panelGrid id="grid" columns="2" style="width:100%;">
+                <h:outputLabel for="documentoCliente" value="Número de Documento:"/>
+                <p:inputText id="documentoCliente" value="#{clienteBean.clienteDto.numDocumentoCliente}"
+                             required="true" requiredMessage="El número de documento es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="nombreCliente" value="Nombre:"/>
+                <p:inputText id="nombreCliente" value="#{clienteBean.clienteDto.nombre}"
+                             required="true" requiredMessage="El nombre es obligatorio">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+                </p:inputText>
+
+                <h:outputLabel for="correoCliente" value="Correo:"/>
+                <p:inputText id="correoCliente" value="#{clienteBean.clienteDto.correo}"
+                             required="true" requiredMessage="El correo es obligatorio">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ 0123456789@_.]/i"/>
+                </p:inputText>
+
+                <h:outputLabel for="telefonoCliente" value="Número de Teléfono:"/>
+                <p:inputText id="telefonoCliente" value="#{clienteBean.clienteDto.numTelefono}"
+                             required="true" requiredMessage="El número de teléfono es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Registrar" action="#{clienteBean.registrarCliente()}"
                                  icon="pi pi-save" styleClass="ui-button-success"
                                  update=":formTabla, formRegistro:grid, formRegistro:msgsRegistro"
-                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarVisitante').hide()"/>
-                <p:commandButton value="Cancelar" onclick="PF('dlgRegistrarVisitante').hide()" type="button"
-                                 icon="pi pi-times-circle" styleClass="ui-button-secondary"/>
+                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarCliente').hide()"/>
+                <p:commandButton value="Cancelar"
+                                 onclick="PF('dlgRegistrarCliente').hide();"
+                                 type="button" icon="pi pi-times-circle"
+                                 styleClass="ui-button-secondary"/>
             </f:facet>
         </p:dialog>
     </h:form>
@@ -144,20 +173,24 @@
         <p:dialog header="Detalle Visitante" widgetVar="dlgDetalles" modal="true" resizable="false" width="550">
             <p:panelGrid columns="2" style="width:100%;">
 
-                <h:outputLabel value="Documento Visitante:"/>
-                <h:outputText value="#{visitanteBean.visitanteDto.idVisitante}"/>
+                <h:outputLabel value="ID Suscripcion:"/>
+                <h:outputText value="#{clienteBean.clienteDto.suscripcion.idSuscripcion}"/>
 
-                <h:outputLabel value="Nombre Visitante:"/>
-                <h:outputText value="#{visitanteBean.visitanteDto.nombre}"/>
+                <h:outputLabel value="Mes(es):"/>
+                <h:outputText value="#{clienteBean.clienteDto.suscripcion.meses}"/>
 
-                <h:outputLabel value="Estado Visita:"/>
-                <h:outputText value="#{visitanteBean.visitanteDto.estado}"/>
+                <h:outputLabel value="Fecha Incio:"/>
+                <h:outputText value="#{clienteBean.clienteDto.suscripcion.fechaInicio}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
+                </h:outputText>
 
-                <h:outputLabel value="Área:"/>
-                <h:outputText value="#{visitanteBean.visitanteDto.areaDestino}"/>
+                <h:outputLabel value="Fecha Fin:"/>
+                <h:outputText value="#{clienteBean.clienteDto.suscripcion.fechaFin}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
+                </h:outputText>
 
-                <h:outputLabel value="Autorizador:"/>
-                <h:outputText value="#{visitanteBean.visitanteDto.empleado.nombre}"/>
+                <h:outputLabel value="Estado:"/>
+                <h:outputText value="#{clienteBean.clienteDto.suscripcion.estado}"/>
 
             </p:panelGrid>
 

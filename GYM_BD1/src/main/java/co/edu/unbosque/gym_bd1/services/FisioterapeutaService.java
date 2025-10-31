@@ -8,10 +8,10 @@ import java.util.List;
 @Stateless
 public class FisioterapeutaService implements InterfaceService<FisioterapeutaDTO> {
 
-    private final ApiService apiService;
+    private ApiService apiService;
 
-    public FisioterapeutaService(ApiService apiService) {
-        this.apiService = apiService;
+    public FisioterapeutaService() {
+        apiService = new ApiService();
     }
 
     @Override
@@ -20,7 +20,12 @@ public class FisioterapeutaService implements InterfaceService<FisioterapeutaDTO
     }
 
     @Override
-    public List<FisioterapeutaDTO> listar() {
+    public List<FisioterapeutaDTO> listar() throws JsonProcessingException {
         return apiService.listar("fisioterapeutas", FisioterapeutaDTO.class);
+    }
+
+    @Override
+    public void eliminar(FisioterapeutaDTO fisioterapeutaDTO) {
+
     }
 }

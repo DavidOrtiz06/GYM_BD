@@ -2,6 +2,8 @@ package co.edu.unbosque.gym_bd1.services;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.client.Entity;
@@ -19,6 +21,8 @@ public class ApiService {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public <T> T registrar(String endpoint, T dto, Class<T> responseType) throws JsonProcessingException {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(BASE_URL + endpoint);
         Response response = target.request(MediaType.APPLICATION_JSON)
@@ -31,13 +35,15 @@ public class ApiService {
         }
     }
 
-    public <T> List<T> listar(String endpoint, Class<T> responseType) {
+    public <T> List<T> listar(String endpoint, Class<T> responseType) throws JsonProcessingException {
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         Client client = ClientBuilder.newClient();
         WebTarget target = client.target(BASE_URL + endpoint);
         Response response = target.request(MediaType.APPLICATION_JSON).get();
         if (response.getStatus() == 200) {
-            return response.readEntity(new GenericType<List<T>>() {
-            });
+            return objectMapper.readValue(response.readEntity(String.class),
+                    objectMapper.getTypeFactory().constructCollectionType(List.class, responseType));
         } else {
             System.err.println("Error al listar en " + endpoint + ": " + response.getStatus());
             return new ArrayList<>();

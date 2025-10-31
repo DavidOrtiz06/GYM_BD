@@ -8,10 +8,10 @@ import java.util.List;
 @Stateless
 public class HorarioService implements InterfaceService<HorarioDTO> {
 
-    private final ApiService apiService;
+    private ApiService apiService;
 
-    public HorarioService(ApiService apiService) {
-        this.apiService = apiService;
+    public HorarioService() {
+        apiService = new ApiService();
     }
 
     @Override
@@ -20,7 +20,12 @@ public class HorarioService implements InterfaceService<HorarioDTO> {
     }
 
     @Override
-    public List<HorarioDTO> listar() {
+    public List<HorarioDTO> listar() throws JsonProcessingException {
         return apiService.listar("horarios", HorarioDTO.class);
+    }
+
+    @Override
+    public void eliminar(HorarioDTO horarioDTO) {
+
     }
 }

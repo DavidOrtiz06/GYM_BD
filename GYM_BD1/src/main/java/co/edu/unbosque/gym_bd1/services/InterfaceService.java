@@ -7,5 +7,6 @@ import java.util.List;
 public interface InterfaceService <T>{
 
     T registrar(T t) throws JsonProcessingException;
-    List<T> listar();
+    List<T> listar() throws JsonProcessingException;
+    void eliminar(T t);
 }

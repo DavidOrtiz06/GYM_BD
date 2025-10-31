@@ -8,11 +8,7 @@ import java.util.List;
 @Stateless
 public class SuscripcionService implements InterfaceService<SuscripcionDTO> {
 
-    private final ApiService apiService;
-
-    public SuscripcionService(ApiService apiService) {
-        this.apiService = apiService;
-    }
+    private final ApiService apiService = new ApiService();
 
     @Override
     public SuscripcionDTO registrar(SuscripcionDTO suscripcion) throws JsonProcessingException {
@@ -20,7 +16,12 @@ public class SuscripcionService implements InterfaceService<SuscripcionDTO> {
     }
 
     @Override
-    public List<SuscripcionDTO> listar() {
+    public List<SuscripcionDTO> listar() throws JsonProcessingException {
         return apiService.listar("suscripciones", SuscripcionDTO.class);
+    }
+
+    @Override
+    public void eliminar(SuscripcionDTO suscripcionDTO) {
+
     }
 }

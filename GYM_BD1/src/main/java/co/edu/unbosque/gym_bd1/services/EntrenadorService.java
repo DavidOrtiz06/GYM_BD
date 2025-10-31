@@ -8,10 +8,10 @@ import java.util.List;
 @Stateless
 public class EntrenadorService implements InterfaceService<EntrenadorDTO> {
 
-    private final ApiService apiService;
+    private ApiService apiService;
 
-    public EntrenadorService(ApiService apiService) {
-        this.apiService = apiService;
+    public EntrenadorService() {
+        apiService = new ApiService();
     }
 
     @Override
@@ -20,7 +20,12 @@ public class EntrenadorService implements InterfaceService<EntrenadorDTO> {
     }
 
     @Override
-    public List<EntrenadorDTO> listar() {
+    public List<EntrenadorDTO> listar() throws JsonProcessingException {
         return apiService.listar("entrenadores", EntrenadorDTO.class);
+    }
+
+    @Override
+    public void eliminar(EntrenadorDTO entrenadorDTO) {
+
     }
 }
