@@ -26,9 +26,10 @@ public class ClienteBean implements Serializable {
 
     @Inject
     private SuscripcionBean suscripcionBean;
-
     @Inject
-    private InterfaceService<ClienteDTO> clienteService;
+    private InterfaceService<ClienteDTO, String> clienteService;
+    @Inject
+    private TablaBean tablaBean;
 
     @PostConstruct
     public void init(){
@@ -39,15 +40,15 @@ public class ClienteBean implements Serializable {
     public void registrarCliente() throws JsonProcessingException {
         suscripcionDto = suscripcionBean.obtenerUltimaSuscripcion();
         if(suscripcionDto != null) {
-            System.out.println(suscripcionDto);
             clienteDto.setSuscripcion(suscripcionDto);
-        } else {
-            System.out.println("Null");
         }
         clienteService.registrar(clienteDto);
         clienteDto = new ClienteDTO();
         FacesContext.getCurrentInstance().addMessage(null,
                 new FacesMessage(FacesMessage.SEVERITY_INFO, "Cliente registrado correctamente.", null));
+        if("cliente".equals(tablaBean.getTipoActual())){
+            tablaBean.listarEntidad("cliente");
+        }
         clientesFiltrados = listarClientes();
     }
 
@@ -63,10 +64,6 @@ public class ClienteBean implements Serializable {
                         (c.getNumDocumentoCliente() != null &&
                                 c.getNumDocumentoCliente().equals(idClienteFiltro)))
                 .collect(Collectors.toList());
-    }
-
-    public void crearCliente(){
-        System.out.println("Creando el cliente");
     }
 
     public ClienteDTO getClienteDto() {

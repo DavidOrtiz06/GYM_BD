@@ -15,7 +15,7 @@ import java.util.List;
 public class HorarioBean implements Serializable {
 
     @Inject
-    private InterfaceService<HorarioDTO> horarioService;
+    private InterfaceService<HorarioDTO, Integer> horarioService;
 
     private List<HorarioDTO> horarios;
     private HorarioDTO nuevoHorario;

@@ -4,19 +4,19 @@ import java.time.LocalDateTime;
 
 public class SuscripcionDTO {
 
-    private int idSuscripcion;
+    private Integer idSuscripcion;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private String estado;
-    private int meses;
+    private Integer meses;
 
     public SuscripcionDTO() {}
 
-    public int getIdSuscripcion() {
+    public Integer getIdSuscripcion() {
         return idSuscripcion;
     }
 
-    public void setIdSuscripcion(int idSuscripcion) {
+    public void setIdSuscripcion(Integer idSuscripcion) {
         this.idSuscripcion = idSuscripcion;
     }
 
@@ -44,22 +44,11 @@ public class SuscripcionDTO {
         this.estado = estado;
     }
 
-    public int getMeses() {
+    public Integer getMeses() {
         return meses;
     }
 
-    public void setMeses(int meses) {
+    public void setMeses(Integer meses) {
         this.meses = meses;
-    }
-
-    @Override
-    public String toString() {
-        return "SuscripcionDTO{" +
-                "idSuscripcion='" + idSuscripcion + '\'' +
-                ", fechaInicio=" + fechaInicio +
-                ", fechaFin=" + fechaFin +
-                ", estado='" + estado + '\'' +
-                ", meses=" + meses +
-                '}';
     }
 }

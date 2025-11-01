@@ -19,7 +19,7 @@ public class SuscripcionBean implements Serializable {
     private SuscripcionDTO suscripcionDto;
 
     @Inject
-    private InterfaceService<SuscripcionDTO> suscripcionService;
+    private InterfaceService<SuscripcionDTO, Integer> suscripcionService;
 
     @PostConstruct
     public void init() {

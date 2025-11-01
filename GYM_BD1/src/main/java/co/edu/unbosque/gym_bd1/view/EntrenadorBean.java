@@ -4,6 +4,8 @@ import co.edu.unbosque.gym_bd1.model.EntrenadorDTO;
 import co.edu.unbosque.gym_bd1.services.InterfaceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
+import jakarta.faces.application.FacesMessage;
+import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
@@ -14,29 +16,54 @@ import java.util.List;
 @ViewScoped
 public class EntrenadorBean implements Serializable {
 
-    @Inject
-    private InterfaceService<EntrenadorDTO> entrenadorService;
+    private EntrenadorDTO entrenadorDto;
+    private List<EntrenadorDTO> entrenadoresFiltrados;
 
-    private List<EntrenadorDTO> entrenadores;
-    private EntrenadorDTO nuevoEntrenador;
+    @Inject
+    private InterfaceService<EntrenadorDTO, String> entrenadorService;
+    @Inject
+    private TablaBean tablaBean;
 
     @PostConstruct
     public void init() {
-        nuevoEntrenador = new EntrenadorDTO();
+        entrenadorDto = new EntrenadorDTO();
     }
 
-    public void abrirNuevo() { nuevoEntrenador = new EntrenadorDTO(); }
-
-    public void registrar() {
-        try {
-            entrenadorService.registrar(nuevoEntrenador);
-            entrenadores = entrenadorService.listar();
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
+    public void registrarEntrenador() throws JsonProcessingException {
+        entrenadorService.registrar(entrenadorDto);
+        entrenadorDto = new EntrenadorDTO();
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Entrenador registrado correctamente.", null));
+        if("entrenador".equals(tablaBean.getTipoActual())){
+            tablaBean.listarEntidad("entrenador");
         }
+        entrenadoresFiltrados = listarEntrenadores();
     }
 
-    // Getters
-    public List<EntrenadorDTO> getEntrenadores() { return entrenadores; }
-    public EntrenadorDTO getNuevoEntrenador() { return nuevoEntrenador; }
+    public List<EntrenadorDTO> listarEntrenadores() throws JsonProcessingException {
+        return entrenadorService.listar();
+    }
+
+    public void crearEntrenador() {
+        System.out.println("Creando entrenador");
+    }
+
+    public EntrenadorDTO getEntrenadorDto() {
+        return entrenadorDto;
+    }
+
+    public void setEntrenadorDto(EntrenadorDTO entrenadorDto) {
+        this.entrenadorDto = entrenadorDto;
+    }
+
+    public List<EntrenadorDTO> getEntrenadoresFiltrados() throws JsonProcessingException {
+        if(entrenadoresFiltrados == null){
+            entrenadoresFiltrados = listarEntrenadores();
+        }
+        return entrenadoresFiltrados;
+    }
+
+    public void setEntrenadoresFiltrados(List<EntrenadorDTO> entrenadoresFiltrados) {
+        this.entrenadoresFiltrados = entrenadoresFiltrados;
+    }
 }

@@ -6,7 +6,7 @@ import jakarta.ejb.Stateless;
 import java.util.List;
 
 @Stateless
-public class ClaseService implements InterfaceService<ClaseDTO> {
+public class ClaseService implements InterfaceService<ClaseDTO, Integer> {
 
     private ApiService apiService;
 
@@ -22,6 +22,11 @@ public class ClaseService implements InterfaceService<ClaseDTO> {
     @Override
     public List<ClaseDTO> listar() throws JsonProcessingException {
         return apiService.listar("clases", ClaseDTO.class);
+    }
+
+    @Override
+    public ClaseDTO actualizar(ClaseDTO clase, Integer id) throws JsonProcessingException {
+        return null;
     }
 
     @Override

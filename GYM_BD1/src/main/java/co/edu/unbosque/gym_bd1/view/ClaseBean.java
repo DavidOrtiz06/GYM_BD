@@ -15,7 +15,7 @@ import java.util.List;
 public class ClaseBean implements Serializable {
 
     @Inject
-    private InterfaceService<ClaseDTO> claseService;
+    private InterfaceService<ClaseDTO, Integer> claseService;
 
     private List<ClaseDTO> clases;
     private ClaseDTO nuevaClase;
