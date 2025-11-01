@@ -3,6 +3,8 @@ package co.edu.unbosque.GYM_BD.model.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 @Entity
@@ -10,14 +12,15 @@ import java.util.Date;
 public class Valoracion implements Serializable {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_VALORACION")
     private int idValoracion;
 
     @Column(name = "FECHA_VALORACION")
-    private Date fecha;
+    private LocalDateTime fecha;
 
     @Column(name = "HORA_VALORACION")
-    private String hora;
+    private LocalTime hora;
 
     @Column(name = "ESTADO_VALORACION")
     private String estado;
@@ -43,19 +46,19 @@ public class Valoracion implements Serializable {
         this.idValoracion = idValoracion;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 

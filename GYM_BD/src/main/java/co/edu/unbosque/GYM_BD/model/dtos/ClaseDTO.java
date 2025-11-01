@@ -2,19 +2,19 @@ package co.edu.unbosque.GYM_BD.model.dtos;
 
 public class ClaseDTO {
 
-    private int idClase;
+    private Integer idClase;
     private String nombre;
     private String duracion;
-    private int cupo;
+    private Integer cupo;
     private EntrenadorDTO entrenador;
 
     public ClaseDTO() {}
 
-    public int getIdClase() {
+    public Integer getIdClase() {
         return idClase;
     }
 
-    public void setIdClase(int idClase) {
+    public void setIdClase(Integer idClase) {
         this.idClase = idClase;
     }
 
@@ -34,11 +34,11 @@ public class ClaseDTO {
         this.duracion = duracion;
     }
 
-    public int getCupo() {
+    public Integer getCupo() {
         return cupo;
     }
 
-    public void setCupo(int cupo) {
+    public void setCupo(Integer cupo) {
         this.cupo = cupo;
     }
 

@@ -2,7 +2,7 @@ package co.edu.unbosque.GYM_BD.model.dtos;
 
 public class HorarioDTO {
 
-    private int idHorario;
+    private Integer idHorario;
     private String dia;
     private String horaInicio;
     private String horaFin;
@@ -10,11 +10,11 @@ public class HorarioDTO {
 
     public HorarioDTO() {}
 
-    public int getIdHorario() {
+    public Integer getIdHorario() {
         return idHorario;
     }
 
-    public void setIdHorario(int idHorario) {
+    public void setIdHorario(Integer idHorario) {
         this.idHorario = idHorario;
     }
 

@@ -29,4 +29,10 @@ public class ValoracionController {
         System.out.println("Valoración registrada");
         return new ResponseEntity<>(valoracionService.registrarValoracion(valoracion), HttpStatus.CREATED);
     }
+
+    @PutMapping("/valoraciones/{idValoracion}/estado")
+    public ResponseEntity<ValoracionDTO> actualizarValoracion(@PathVariable Integer idValoracion, @RequestBody ValoracionDTO valoracion) {
+        System.out.println("Valoracion actualizada");
+        return new ResponseEntity<>(valoracionService.actualizarValoracion(idValoracion, valoracion.getEstado(), valoracion.getRestricciones()), HttpStatus.CREATED);
+    }
 }

@@ -30,6 +30,7 @@ public class EntrenadorService {
 
     public EntrenadorDTO registrarEntrenador(EntrenadorDTO entrenador) {
         entrenador.setEstado("Activo");
+        entrenador.setCorreo(entrenador.getNombre().replace(" ", ".").toLowerCase() + "@gymfit.com");
         return modelMapper.map(entrenadorRepository.save(modelMapper.map(entrenador, Entrenador.class)), EntrenadorDTO.class);
     }
 }

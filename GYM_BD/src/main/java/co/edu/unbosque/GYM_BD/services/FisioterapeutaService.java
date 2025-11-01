@@ -30,6 +30,7 @@ public class FisioterapeutaService {
 
     public FisioterapeutaDTO registrarFisioterapeuta(FisioterapeutaDTO fisioterapeuta) {
         fisioterapeuta.setEstado("Activo");
+        fisioterapeuta.setCorreo(fisioterapeuta.getNombre().replace(" ", ".").toLowerCase() + "@gymfit.com");
         return modelMapper.map(fisioterapeutaRepository.save(modelMapper.map(fisioterapeuta, Fisioterapeuta.class)), FisioterapeutaDTO.class);
     }
 }

@@ -31,7 +31,7 @@ public class Fisioterapeuta implements Serializable {
     private String turno;
 
     @Column(name = "ANIOS_EXP_FISIOTERAPEUTA")
-    private int aniosExp;
+    private Integer aniosExp;
 
     @Column(name = "ESPECIALIDAD_FISIOTERAPEUTA")
     private String especialidad;
@@ -89,11 +89,11 @@ public class Fisioterapeuta implements Serializable {
         this.turno = turno;
     }
 
-    public int getAniosExp() {
+    public Integer getAniosExp() {
         return aniosExp;
     }
 
-    public void setAniosExp(int aniosExp) {
+    public void setAniosExp(Integer aniosExp) {
         this.aniosExp = aniosExp;
     }
 

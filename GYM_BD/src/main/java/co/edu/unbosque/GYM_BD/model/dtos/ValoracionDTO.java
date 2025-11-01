@@ -1,40 +1,41 @@
 package co.edu.unbosque.GYM_BD.model.dtos;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 public class ValoracionDTO {
 
-    private int idValoracion;
-    private Date fecha;
-    private String hora;
+    private Integer idValoracion;
+    private LocalDateTime fecha;
+    private LocalTime hora;
     private String estado;
-    private ClienteDTO numDocumentoCliente;
-    private FisioterapeutaDTO numDocumentoFisioterapeuta;
+    private ClienteDTO cliente;
+    private FisioterapeutaDTO fisioterapeuta;
     private String restricciones;
 
     public ValoracionDTO() {}
 
-    public int getIdValoracion() {
+    public Integer getIdValoracion() {
         return idValoracion;
     }
 
-    public void setIdValoracion(int idValoracion) {
+    public void setIdValoracion(Integer idValoracion) {
         this.idValoracion = idValoracion;
     }
 
-    public Date getFecha() {
+    public LocalDateTime getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(LocalDateTime fecha) {
         this.fecha = fecha;
     }
 
-    public String getHora() {
+    public LocalTime getHora() {
         return hora;
     }
 
-    public void setHora(String hora) {
+    public void setHora(LocalTime hora) {
         this.hora = hora;
     }
 
@@ -46,20 +47,20 @@ public class ValoracionDTO {
         this.estado = estado;
     }
 
-    public ClienteDTO getNumDocumentoCliente() {
-        return numDocumentoCliente;
+    public ClienteDTO getCliente() {
+        return cliente;
     }
 
-    public void setNumDocumentoCliente(ClienteDTO numDocumentoCliente) {
-        this.numDocumentoCliente = numDocumentoCliente;
+    public void setCliente(ClienteDTO cliente) {
+        this.cliente = cliente;
     }
 
-    public FisioterapeutaDTO getNumDocumentoFisioterapeuta() {
-        return numDocumentoFisioterapeuta;
+    public FisioterapeutaDTO getFisioterapeuta() {
+        return fisioterapeuta;
     }
 
-    public void setNumDocumentoFisioterapeuta(FisioterapeutaDTO numDocumentoFisioterapeuta) {
-        this.numDocumentoFisioterapeuta = numDocumentoFisioterapeuta;
+    public void setFisioterapeuta(FisioterapeutaDTO fisioterapeuta) {
+        this.fisioterapeuta = fisioterapeuta;
     }
 
     public String getRestricciones() {

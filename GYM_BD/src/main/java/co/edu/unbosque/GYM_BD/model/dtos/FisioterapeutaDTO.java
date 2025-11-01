@@ -8,9 +8,9 @@ public class FisioterapeutaDTO {
     private String estado;
     private String numTelefono;
     private String turno;
-    private int aniosExp;
+    private Integer aniosExp;
     private String especialidad;
-    private int numLicencia;
+    private Integer numLicencia;
 
     public FisioterapeutaDTO() {}
 
@@ -62,11 +62,11 @@ public class FisioterapeutaDTO {
         this.turno = turno;
     }
 
-    public int getAniosExp() {
+    public Integer getAniosExp() {
         return aniosExp;
     }
 
-    public void setAniosExp(int aniosExp) {
+    public void setAniosExp(Integer aniosExp) {
         this.aniosExp = aniosExp;
     }
 
@@ -78,11 +78,11 @@ public class FisioterapeutaDTO {
         this.especialidad = especialidad;
     }
 
-    public int getNumLicencia() {
+    public Integer getNumLicencia() {
         return numLicencia;
     }
 
-    public void setNumLicencia(int numLicencia) {
+    public void setNumLicencia(Integer numLicencia) {
         this.numLicencia = numLicencia;
     }
 }

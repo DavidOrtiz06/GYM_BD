@@ -8,7 +8,7 @@ public class EntrenadorDTO {
     private String estado;
     private String numTelefono;
     private String turno;
-    private int aniosExp;
+    private Integer aniosExp;
     private String nivelFormacion;
 
     public EntrenadorDTO() {}
@@ -61,11 +61,11 @@ public class EntrenadorDTO {
         this.turno = turno;
     }
 
-    public int getAniosExp() {
+    public Integer getAniosExp() {
         return aniosExp;
     }
 
-    public void setAniosExp(int aniosExp) {
+    public void setAniosExp(Integer aniosExp) {
         this.aniosExp = aniosExp;
     }
 

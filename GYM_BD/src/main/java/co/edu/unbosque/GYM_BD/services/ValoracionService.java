@@ -32,4 +32,11 @@ public class ValoracionService {
         valoracion.setEstado("Pendiente");
         return modelMapper.map(valoracionRepository.save(modelMapper.map(valoracion, Valoracion.class)), ValoracionDTO.class);
     }
+
+    public ValoracionDTO actualizarValoracion(Integer idValoracion, String estado, String restricciones) {
+        Valoracion valoracion = valoracionRepository.findById(idValoracion).get();
+        valoracion.setEstado(estado);
+        valoracion.setRestricciones(restricciones);
+        return modelMapper.map(valoracionRepository.save(valoracion), ValoracionDTO.class);
+    }
 }
