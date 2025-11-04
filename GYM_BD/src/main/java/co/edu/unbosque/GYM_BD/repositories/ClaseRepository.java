@@ -30,7 +30,7 @@ public interface ClaseRepository extends JpaRepository<Clase, Integer> {
     JOIN horario h 
         ON c.ID_CLASE = h.ID_CLASE
     WHERE CAST(c.DURACION_CLASE AS UNSIGNED) > :duracion
-        AND h.CUPO_HORARIO <= :cupo
+        AND h.CUPO_HORARIO < :cupo
     """, nativeQuery = true)
     List<Object[]> obtenerClasesPorTiempoYCupo(@Param("duracion") Integer duracion, @Param("cupo") Integer cupo);
 }
