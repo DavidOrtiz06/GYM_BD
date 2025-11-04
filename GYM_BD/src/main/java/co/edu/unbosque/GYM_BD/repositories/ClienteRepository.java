@@ -20,7 +20,7 @@ public interface ClienteRepository extends JpaRepository<Cliente, String> {
         ON c.NUM_DOC_CLIENTE = i.NUM_DOC_CLIENTE
     GROUP BY c.NUM_DOC_CLIENTE, 
              c.NOMBRE_CLIENTE
-    HAVING COUNT(i.ID_CLASE) => :totalClases
+    HAVING COUNT(i.ID_CLASE) > :totalClases
     """, nativeQuery = true)
     List<Object[]> obtenerClientesConMultiplesClases(@Param("totalClases") Integer totalClases);
 }

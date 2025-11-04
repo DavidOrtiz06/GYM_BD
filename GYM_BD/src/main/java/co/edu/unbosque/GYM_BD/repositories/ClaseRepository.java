@@ -18,7 +18,7 @@ public interface ClaseRepository extends JpaRepository<Clase, Integer> {
     FROM clase c
     JOIN horario h 
         ON c.ID_CLASE = h.ID_CLASE
-    WHERE h.CUPO_HORARIO => :cupo
+    WHERE h.CUPO_HORARIO > :cupo
     """, nativeQuery = true)
     List<Object[]> obtenerClasesConCupoMayorA(@Param("cupo") Integer cupo);
 
