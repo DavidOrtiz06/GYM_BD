@@ -5,7 +5,6 @@ public class ClaseDTO {
     private Integer idClase;
     private String nombre;
     private String duracion;
-    private Integer cupo;
     private EntrenadorDTO entrenador;
 
     public ClaseDTO() {}
@@ -32,14 +31,6 @@ public class ClaseDTO {
 
     public void setDuracion(String duracion) {
         this.duracion = duracion;
-    }
-
-    public Integer getCupo() {
-        return cupo;
-    }
-
-    public void setCupo(Integer cupo) {
-        this.cupo = cupo;
     }
 
     public EntrenadorDTO getEntrenador() {

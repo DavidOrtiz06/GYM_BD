@@ -1,12 +1,13 @@
 package co.edu.unbosque.gym_bd1.services;
 
 import co.edu.unbosque.gym_bd1.model.SuscripcionDTO;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceSuscripcion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ejb.Stateless;
 import java.util.List;
 
 @Stateless
-public class SuscripcionService implements InterfaceService<SuscripcionDTO, Integer> {
+public class SuscripcionService implements InterfaceSuscripcion {
 
     private final ApiService apiService = new ApiService();
 
@@ -21,12 +22,12 @@ public class SuscripcionService implements InterfaceService<SuscripcionDTO, Inte
     }
 
     @Override
-    public SuscripcionDTO actualizar(SuscripcionDTO suscripcion, Integer id) throws JsonProcessingException {
-        return null;
+    public List<Object[]> listarSuscripcionesVigentes() throws JsonProcessingException {
+        return apiService.listar("suscripciones/vigentes", Object[].class);
     }
 
     @Override
-    public void eliminar(SuscripcionDTO suscripcionDTO) {
-
+    public List<Object[]> listarClientesSinSuscripcionActiva() throws JsonProcessingException {
+        return apiService.listar("suscripciones/clientes/inactiva", Object[].class);
     }
 }

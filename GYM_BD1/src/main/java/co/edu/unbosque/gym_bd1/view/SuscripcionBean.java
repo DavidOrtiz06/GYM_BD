@@ -1,7 +1,7 @@
 package co.edu.unbosque.gym_bd1.view;
 
 import co.edu.unbosque.gym_bd1.model.SuscripcionDTO;
-import co.edu.unbosque.gym_bd1.services.InterfaceService;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceSuscripcion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -17,9 +17,11 @@ import java.util.List;
 public class SuscripcionBean implements Serializable {
 
     private SuscripcionDTO suscripcionDto;
+    private List<Object[]> suscripcionesVigentes;
+    private List<Object[]> suscripcionesInactivas;
 
     @Inject
-    private InterfaceService<SuscripcionDTO, Integer> suscripcionService;
+    private InterfaceSuscripcion suscripcionService;
 
     @PostConstruct
     public void init() {
@@ -46,6 +48,14 @@ public class SuscripcionBean implements Serializable {
         }
     }
 
+    public void obtenerSuscripcionesVigentes() throws JsonProcessingException {
+        suscripcionesVigentes = suscripcionService.listarSuscripcionesVigentes();
+    }
+
+    public void listarClientesSinSuscripcionActiva() throws JsonProcessingException {
+        suscripcionesInactivas = suscripcionService.listarClientesSinSuscripcionActiva();
+    }
+
     public void seleccionarMeses(int meses) {
         suscripcionDto.setMeses(meses);
     }
@@ -56,5 +66,21 @@ public class SuscripcionBean implements Serializable {
 
     public void setSuscripcionDto(SuscripcionDTO suscripcionDto) {
         this.suscripcionDto = suscripcionDto;
+    }
+
+    public List<Object[]> getSuscripcionesVigentes() {
+        return suscripcionesVigentes;
+    }
+
+    public void setSuscripcionesVigentes(List<Object[]> suscripcionesVigentes) {
+        this.suscripcionesVigentes = suscripcionesVigentes;
+    }
+
+    public List<Object[]> getSuscripcionesInactivas() {
+        return suscripcionesInactivas;
+    }
+
+    public void setSuscripcionesInactivas(List<Object[]> suscripcionesInactivas) {
+        this.suscripcionesInactivas = suscripcionesInactivas;
     }
 }

@@ -2,6 +2,8 @@ package co.edu.unbosque.gym_bd1.services;
 
 import co.edu.unbosque.gym_bd1.model.ActualizarValoracionDTO;
 import co.edu.unbosque.gym_bd1.model.ValoracionDTO;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceService;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceValoracion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -14,10 +16,11 @@ import jakarta.ws.rs.client.WebTarget;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Stateless
-public class ValoracionService implements InterfaceService<ValoracionDTO, Integer> {
+public class ValoracionService implements InterfaceValoracion {
 
     private ApiService apiService;
 
@@ -55,7 +58,12 @@ public class ValoracionService implements InterfaceService<ValoracionDTO, Intege
     }
 
     @Override
-    public void eliminar(ValoracionDTO valoracionDTO) {
+    public List<Object[]> listarValoracionesPorEstado(String estado) throws JsonProcessingException {
+        return apiService.listar("valoraciones/estado/" + estado, Object[].class);
+    }
 
+    @Override
+    public List<Object[]> listarValoracionesPorFecha(LocalDate fecha) throws JsonProcessingException {
+        return apiService.listar("valoraciones/fecha/" + fecha, Object[].class);
     }
 }

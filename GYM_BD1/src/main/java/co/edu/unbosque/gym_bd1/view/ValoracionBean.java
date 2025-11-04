@@ -3,7 +3,7 @@ package co.edu.unbosque.gym_bd1.view;
 import co.edu.unbosque.gym_bd1.model.ClienteDTO;
 import co.edu.unbosque.gym_bd1.model.FisioterapeutaDTO;
 import co.edu.unbosque.gym_bd1.model.ValoracionDTO;
-import co.edu.unbosque.gym_bd1.services.InterfaceService;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceValoracion;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -12,6 +12,7 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Named("valoracionBean")
@@ -22,9 +23,13 @@ public class ValoracionBean implements Serializable {
     private ClienteDTO clienteDto;
     private FisioterapeutaDTO fisioterapeutaDto;
     private String restricciones;
+    private List<Object[]> valoracionesPorEstado;
+    private List<Object[]> valoracionesPorFecha;
+    private String estadoValoracion;
+    private LocalDate fechaValoracion;
 
     @Inject
-    private InterfaceService<ValoracionDTO, Integer> valoracionService;
+    private InterfaceValoracion valoracionService;
     @Inject
     private TablaBean tablaBean;
 
@@ -67,6 +72,14 @@ public class ValoracionBean implements Serializable {
         System.out.println("Actualizando valoracion");
     }
 
+    public void obtenerValoracionesPorEstado(String estado) throws JsonProcessingException {
+        valoracionesPorEstado = valoracionService.listarValoracionesPorEstado(estado);
+    }
+
+    public void obtenerValoracionesPorFecha(LocalDate fecha) throws JsonProcessingException {
+        valoracionesPorFecha = valoracionService.listarValoracionesPorFecha(fecha);
+    }
+
     public void crearValoracion(){
         System.out.println("Creando Valoracion");
     }
@@ -101,5 +114,37 @@ public class ValoracionBean implements Serializable {
 
     public void setRestricciones(String restricciones) {
         this.restricciones = restricciones;
+    }
+
+    public List<Object[]> getValoracionesPorEstado() {
+        return valoracionesPorEstado;
+    }
+
+    public void setValoracionesPorEstado(List<Object[]> valoracionesPorEstado) {
+        this.valoracionesPorEstado = valoracionesPorEstado;
+    }
+
+    public String getEstadoValoracion() {
+        return estadoValoracion;
+    }
+
+    public void setEstadoValoracion(String estadoValoracion) {
+        this.estadoValoracion = estadoValoracion;
+    }
+
+    public List<Object[]> getValoracionesPorFecha() {
+        return valoracionesPorFecha;
+    }
+
+    public void setValoracionesPorFecha(List<Object[]> valoracionesPorFecha) {
+        this.valoracionesPorFecha = valoracionesPorFecha;
+    }
+
+    public LocalDate getFechaValoracion() {
+        return fechaValoracion;
+    }
+
+    public void setFechaValoracion(LocalDate fechaValoracion) {
+        this.fechaValoracion = fechaValoracion;
     }
 }

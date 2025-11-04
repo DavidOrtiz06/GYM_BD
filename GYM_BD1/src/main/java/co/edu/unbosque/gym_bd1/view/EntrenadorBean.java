@@ -1,7 +1,8 @@
 package co.edu.unbosque.gym_bd1.view;
 
 import co.edu.unbosque.gym_bd1.model.EntrenadorDTO;
-import co.edu.unbosque.gym_bd1.services.InterfaceService;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceEntrenador;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -17,10 +18,11 @@ import java.util.List;
 public class EntrenadorBean implements Serializable {
 
     private EntrenadorDTO entrenadorDto;
-    private List<EntrenadorDTO> entrenadoresFiltrados;
+    private List<Object[]> entrenadores;
+    private String turno;
 
     @Inject
-    private InterfaceService<EntrenadorDTO, String> entrenadorService;
+    private InterfaceEntrenador entrenadorService;
     @Inject
     private TablaBean tablaBean;
 
@@ -37,7 +39,6 @@ public class EntrenadorBean implements Serializable {
         if("entrenador".equals(tablaBean.getTipoActual())){
             tablaBean.listarEntidad("entrenador");
         }
-        entrenadoresFiltrados = listarEntrenadores();
     }
 
     public List<EntrenadorDTO> listarEntrenadores() throws JsonProcessingException {
@@ -48,6 +49,10 @@ public class EntrenadorBean implements Serializable {
         System.out.println("Creando entrenador");
     }
 
+    public void obtenerEntrenadorPorClase(String clase) throws JsonProcessingException {
+        entrenadores = entrenadorService.listarEntrenadorPorTurno(clase);
+    }
+
     public EntrenadorDTO getEntrenadorDto() {
         return entrenadorDto;
     }
@@ -56,14 +61,19 @@ public class EntrenadorBean implements Serializable {
         this.entrenadorDto = entrenadorDto;
     }
 
-    public List<EntrenadorDTO> getEntrenadoresFiltrados() throws JsonProcessingException {
-        if(entrenadoresFiltrados == null){
-            entrenadoresFiltrados = listarEntrenadores();
-        }
-        return entrenadoresFiltrados;
+    public List<Object[]> getEntrenadores() {
+        return entrenadores;
     }
 
-    public void setEntrenadoresFiltrados(List<EntrenadorDTO> entrenadoresFiltrados) {
-        this.entrenadoresFiltrados = entrenadoresFiltrados;
+    public void setEntrenadores(List<Object[]> entrenadores) {
+        this.entrenadores = entrenadores;
+    }
+
+    public String getTurno() {
+        return turno;
+    }
+
+    public void setTurno(String turno) {
+        this.turno = turno;
     }
 }

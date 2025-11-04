@@ -1,12 +1,15 @@
 package co.edu.unbosque.gym_bd1.model;
 
+import java.time.LocalTime;
+
 public class HorarioDTO {
 
     private Integer idHorario;
     private String dia;
-    private String horaInicio;
-    private String horaFin;
-    private ClaseDTO idClase;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
+    private Integer cupo;
+    private ClaseDTO clase;
 
     public HorarioDTO() {}
 
@@ -26,27 +29,35 @@ public class HorarioDTO {
         this.dia = dia;
     }
 
-    public String getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(String horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public String getHoraFin() {
+    public LocalTime getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(String horaFin) {
+    public void setHoraFin(LocalTime horaFin) {
         this.horaFin = horaFin;
     }
 
-    public ClaseDTO getIdClase() {
-        return idClase;
+    public Integer getCupo() {
+        return cupo;
     }
 
-    public void setIdClase(ClaseDTO idClase) {
-        this.idClase = idClase;
+    public void setCupo(Integer cupo) {
+        this.cupo = cupo;
+    }
+
+    public ClaseDTO getClase() {
+        return clase;
+    }
+
+    public void setClase(ClaseDTO clase) {
+        this.clase = clase;
     }
 }

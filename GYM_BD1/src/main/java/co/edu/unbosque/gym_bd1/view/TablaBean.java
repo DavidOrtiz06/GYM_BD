@@ -26,6 +26,8 @@ public class TablaBean implements Serializable {
     private SuscripcionBean suscripcionBean;
     @Inject
     private ValoracionBean valoracionBean;
+    @Inject
+    private HorarioBean horarioBean;
 
     @PostConstruct
     public void init() {
@@ -55,6 +57,9 @@ public class TablaBean implements Serializable {
                 break;
             case "valoracion":
                 tablaDatos = valoracionBean.listarValoraciones();
+                break;
+            case "horario":
+                tablaDatos = horarioBean.listarHorarios();
                 break;
         }
     }

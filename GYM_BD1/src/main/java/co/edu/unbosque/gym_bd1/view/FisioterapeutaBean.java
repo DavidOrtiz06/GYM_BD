@@ -1,7 +1,7 @@
 package co.edu.unbosque.gym_bd1.view;
 
 import co.edu.unbosque.gym_bd1.model.FisioterapeutaDTO;
-import co.edu.unbosque.gym_bd1.services.InterfaceService;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceFisioterapeuta;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -10,7 +10,6 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.inject.Inject;
 import jakarta.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 
 @Named("fisioterapeutaBean")
@@ -18,10 +17,11 @@ import java.util.List;
 public class FisioterapeutaBean implements Serializable {
 
     private FisioterapeutaDTO fisioterapeutaDto;
-    private List<FisioterapeutaDTO> fisioterapeutasFiltrados;
+    private List<Object[]> clientesPorFisioterapeuta;
+    private String numDocumentoFisioterapeuta;
 
     @Inject
-    private InterfaceService<FisioterapeutaDTO, String> fisioterapeutaService;
+    private InterfaceFisioterapeuta fisioterapeutaService;
     @Inject
     private TablaBean tablaBean;
 
@@ -38,7 +38,6 @@ public class FisioterapeutaBean implements Serializable {
         if("fisioterapeuta".equals(tablaBean.getTipoActual())){
             tablaBean.listarEntidad("fisioterapeuta");
         }
-        fisioterapeutasFiltrados = listarFisioterapeutas();
     }
 
     public List<FisioterapeutaDTO> listarFisioterapeutas() throws JsonProcessingException {
@@ -49,6 +48,10 @@ public class FisioterapeutaBean implements Serializable {
         System.out.println("Creando Fisioterapeuta");
     }
 
+    public void obtenerClientesPorFisioterapeuta(String numDocumentoFisioterapeuta) throws JsonProcessingException {
+        clientesPorFisioterapeuta = fisioterapeutaService.listarClientesPorFisioterapeuta(numDocumentoFisioterapeuta);
+    }
+
     public FisioterapeutaDTO getFisioterapeutaDto() {
         return fisioterapeutaDto;
     }
@@ -57,14 +60,19 @@ public class FisioterapeutaBean implements Serializable {
         this.fisioterapeutaDto = fisioterapeutaDto;
     }
 
-    public List<FisioterapeutaDTO> getFisioterapeutasFiltrados() throws JsonProcessingException {
-        if(fisioterapeutasFiltrados == null) {
-            fisioterapeutasFiltrados = listarFisioterapeutas();
-        }
-        return fisioterapeutasFiltrados;
+    public List<Object[]> getClientesPorFisioterapeuta() {
+        return clientesPorFisioterapeuta;
     }
 
-    public void setFisioterapeutasFiltrados(List<FisioterapeutaDTO> fisioterapeutasFiltrados) {
-        this.fisioterapeutasFiltrados = fisioterapeutasFiltrados;
+    public void setClientesPorFisioterapeuta(List<Object[]> clientesPorFisioterapeuta) {
+        this.clientesPorFisioterapeuta = clientesPorFisioterapeuta;
+    }
+
+    public String getNumDocumentoFisioterapeuta() {
+        return numDocumentoFisioterapeuta;
+    }
+
+    public void setNumDocumentoFisioterapeuta(String numDocumentoFisioterapeuta) {
+        this.numDocumentoFisioterapeuta = numDocumentoFisioterapeuta;
     }
 }

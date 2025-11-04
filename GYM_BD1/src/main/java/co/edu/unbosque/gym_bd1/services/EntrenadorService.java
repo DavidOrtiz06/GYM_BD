@@ -1,12 +1,14 @@
 package co.edu.unbosque.gym_bd1.services;
 
 import co.edu.unbosque.gym_bd1.model.EntrenadorDTO;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceEntrenador;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.ejb.Stateless;
 import java.util.List;
 
 @Stateless
-public class EntrenadorService implements InterfaceService<EntrenadorDTO, String> {
+public class EntrenadorService implements InterfaceEntrenador {
 
     private ApiService apiService;
 
@@ -25,12 +27,7 @@ public class EntrenadorService implements InterfaceService<EntrenadorDTO, String
     }
 
     @Override
-    public EntrenadorDTO actualizar(EntrenadorDTO entrenador, String id) throws JsonProcessingException {
-        return null;
-    }
-
-    @Override
-    public void eliminar(EntrenadorDTO entrenadorDTO) {
-
+    public List<Object[]> listarEntrenadorPorTurno(String turno) throws JsonProcessingException {
+        return apiService.listar("entrenadores/" + turno, Object[].class);
     }
 }

@@ -2,7 +2,7 @@ package co.edu.unbosque.gym_bd1.view;
 
 import co.edu.unbosque.gym_bd1.model.ClienteDTO;
 import co.edu.unbosque.gym_bd1.model.SuscripcionDTO;
-import co.edu.unbosque.gym_bd1.services.InterfaceService;
+import co.edu.unbosque.gym_bd1.services.interfaces.InterfaceCliente;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.annotation.PostConstruct;
 import jakarta.faces.application.FacesMessage;
@@ -13,7 +13,6 @@ import jakarta.inject.Named;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Named("clienteBean")
 @ViewScoped
@@ -21,13 +20,13 @@ public class ClienteBean implements Serializable {
 
     private ClienteDTO clienteDto;
     private SuscripcionDTO suscripcionDto;
-    private List<ClienteDTO> clientesFiltrados;
-    private String idClienteFiltro;
+    private List<Object[]> clientesConMultiplesClases;
+    private Integer totalClases;
 
     @Inject
     private SuscripcionBean suscripcionBean;
     @Inject
-    private InterfaceService<ClienteDTO, String> clienteService;
+    private InterfaceCliente clienteService;
     @Inject
     private TablaBean tablaBean;
 
@@ -49,21 +48,14 @@ public class ClienteBean implements Serializable {
         if("cliente".equals(tablaBean.getTipoActual())){
             tablaBean.listarEntidad("cliente");
         }
-        clientesFiltrados = listarClientes();
     }
 
     public List<ClienteDTO> listarClientes() throws JsonProcessingException {
         return clienteService.listar();
     }
 
-    public void buscarClientes() throws JsonProcessingException {
-        List<ClienteDTO> todosClientes = clienteService.listar();
-
-        clientesFiltrados = todosClientes.stream()
-                .filter(c -> idClienteFiltro == null || idClienteFiltro.isEmpty() ||
-                        (c.getNumDocumentoCliente() != null &&
-                                c.getNumDocumentoCliente().equals(idClienteFiltro)))
-                .collect(Collectors.toList());
+    public void obtenerClientesClases(Integer totalClases) throws JsonProcessingException {
+        clientesConMultiplesClases = clienteService.listarCLientesConMultiplesHorarios(totalClases);
     }
 
     public ClienteDTO getClienteDto() {
@@ -74,17 +66,6 @@ public class ClienteBean implements Serializable {
         this.clienteDto = clienteDto;
     }
 
-    public List<ClienteDTO> getClientesFiltrados() throws JsonProcessingException {
-        if(clientesFiltrados == null){
-            clientesFiltrados = listarClientes();
-        }
-        return clientesFiltrados;
-    }
-
-    public void setClientesFiltrados(List<ClienteDTO> clientesFiltrados) {
-        this.clientesFiltrados = clientesFiltrados;
-    }
-
     public SuscripcionDTO getSuscripcionDto() {
         return suscripcionDto;
     }
@@ -93,11 +74,19 @@ public class ClienteBean implements Serializable {
         this.suscripcionDto = suscripcionDto;
     }
 
-    public String getIdClienteFiltro() {
-        return idClienteFiltro;
+    public List<Object[]> getClientesConMultiplesClases() {
+        return clientesConMultiplesClases;
     }
 
-    public void setIdClienteFiltro(String idClienteFiltro) {
-        this.idClienteFiltro = idClienteFiltro;
+    public void setClientesConMultiplesClases(List<Object[]> clientesConMultiplesClases) {
+        this.clientesConMultiplesClases = clientesConMultiplesClases;
+    }
+
+    public Integer getTotalClases() {
+        return totalClases;
+    }
+
+    public void setTotalClases(Integer totalClases) {
+        this.totalClases = totalClases;
     }
 }
