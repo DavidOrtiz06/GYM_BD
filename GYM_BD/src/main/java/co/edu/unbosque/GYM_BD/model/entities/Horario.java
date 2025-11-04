@@ -3,6 +3,7 @@ package co.edu.unbosque.GYM_BD.model.entities;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
+import java.time.LocalTime;
 
 @Entity
 @Table(name = "horario")
@@ -10,16 +11,19 @@ public class Horario implements Serializable {
 
     @Id
     @Column(name = "ID_HORARIO")
-    private int idHorario;
+    private Integer idHorario;
 
     @Column(name = "DIA")
     private String dia;
 
     @Column(name = "HORA_INICIO")
-    private String horaInicio;
+    private LocalTime horaInicio;
 
     @Column(name = "HORA_FIN")
-    private String horaFin;
+    private LocalTime horaFin;
+
+    @Column(name = "CUPO_HORARIO")
+    private Integer cupo;
 
     @ManyToOne
     @JoinColumn(name = "ID_CLASE")
@@ -27,11 +31,11 @@ public class Horario implements Serializable {
 
     public Horario() {}
 
-    public int getIdHorario() {
+    public Integer getIdHorario() {
         return idHorario;
     }
 
-    public void setIdHorario(int idHorario) {
+    public void setIdHorario(Integer idHorario) {
         this.idHorario = idHorario;
     }
 
@@ -43,20 +47,28 @@ public class Horario implements Serializable {
         this.dia = dia;
     }
 
-    public String getHoraInicio() {
+    public LocalTime getHoraInicio() {
         return horaInicio;
     }
 
-    public void setHoraInicio(String horaInicio) {
+    public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
 
-    public String getHoraFin() {
+    public LocalTime getHoraFin() {
         return horaFin;
     }
 
-    public void setHoraFin(String horaFin) {
+    public void setHoraFin(LocalTime horaFin) {
         this.horaFin = horaFin;
+    }
+
+    public Integer getCupo() {
+        return cupo;
+    }
+
+    public void setCupo(Integer cupo) {
+        this.cupo = cupo;
     }
 
     public Clase getClase() {

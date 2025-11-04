@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class SuscripcionService {
@@ -35,5 +34,13 @@ public class SuscripcionService {
         suscripcion.setFechaInicio(LocalDateTime.now());
         suscripcion.setFechaFin(suscripcion.getFechaInicio().plusMonths(suscripcion.getMeses()));
         return modelMapper.map(suscripcionRepository.save(modelMapper.map(suscripcion, Suscripcion.class)), SuscripcionDTO.class);
+    }
+
+    public List<Object[]> obtenerSuscripcionesVigentes() {
+        return suscripcionRepository.obtenerSuscripcionesVigentes();
+    }
+
+    public List<Object[]> obtenerClientesSinSuscripcionActiva() {
+        return suscripcionRepository.obtenerClientesSinSuscripcionActiva();
     }
 }

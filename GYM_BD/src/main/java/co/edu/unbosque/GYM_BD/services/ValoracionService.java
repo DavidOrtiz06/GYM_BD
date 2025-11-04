@@ -6,6 +6,7 @@ import co.edu.unbosque.GYM_BD.repositories.ValoracionRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,5 +39,13 @@ public class ValoracionService {
         valoracion.setEstado(estado);
         valoracion.setRestricciones(restricciones);
         return modelMapper.map(valoracionRepository.save(valoracion), ValoracionDTO.class);
+    }
+
+    public List<Object[]> obtenerValoracionesPorEstado(String estado) {
+        return valoracionRepository.obtenerValoracionesPorEstado(estado);
+    }
+
+    public List<Object[]> obtenerValoracionesPorFecha(LocalDate fecha) {
+        return valoracionRepository.obtenerValoracionesPorFecha(fecha);
     }
 }

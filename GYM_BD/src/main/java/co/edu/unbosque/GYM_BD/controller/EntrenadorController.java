@@ -29,4 +29,10 @@ public class EntrenadorController {
         System.out.println("Entrenador registrado");
         return new ResponseEntity<>(entrenadorService.registrarEntrenador(entrenador), HttpStatus.CREATED);
     }
+
+    @GetMapping("/entrenadores/{turno}")
+    public ResponseEntity<List<Object[]>> obtenerEntrenadorPorTurno(@PathVariable String turno) {
+        System.out.println("Lista de entrenadores en turno: " + turno);
+        return new ResponseEntity<>(entrenadorService.obtenerEntrenadoresPorTurno(turno), HttpStatus.OK);
+    }
 }

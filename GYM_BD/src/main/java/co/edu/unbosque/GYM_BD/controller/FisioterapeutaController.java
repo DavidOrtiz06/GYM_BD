@@ -29,4 +29,10 @@ public class FisioterapeutaController {
         System.out.println("Fisioterapeuta registrado");
         return new ResponseEntity<>(fisioterapeutaService.registrarFisioterapeuta(fisioterapeuta), HttpStatus.CREATED);
     }
+
+    @GetMapping("/fisioterapeutas/{numDocumentoFisioterapeuta}")
+    public ResponseEntity<List<Object[]>> obtenerClientesPorFisioterapeuta( @PathVariable String numDocumentoFisioterapeuta) {
+        System.out.println("Lista de clientes atendidos por fisioterapeuta: " + numDocumentoFisioterapeuta);
+        return new ResponseEntity<>(fisioterapeutaService.obtenerClientesPorFisioterapeuta(numDocumentoFisioterapeuta), HttpStatus.OK);
+    }
 }

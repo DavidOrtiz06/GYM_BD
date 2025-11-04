@@ -33,4 +33,8 @@ public class EntrenadorService {
         entrenador.setCorreo(entrenador.getNombre().replace(" ", ".").toLowerCase() + "@gymfit.com");
         return modelMapper.map(entrenadorRepository.save(modelMapper.map(entrenador, Entrenador.class)), EntrenadorDTO.class);
     }
+
+    public List<Object[]> obtenerEntrenadoresPorTurno(String turno) {
+        return entrenadorRepository.obtenerEntrenadoresPorTurno(turno);
+    }
 }

@@ -31,4 +31,12 @@ public class ClaseService {
     public ClaseDTO registrarClase(ClaseDTO clase) {
         return modelMapper.map(claseRepository.save(modelMapper.map(clase, Clase.class)), ClaseDTO.class);
     }
+
+    public List<Object[]> obtenerClasesConCupoMayorA(Integer cupo) {
+        return claseRepository.obtenerClasesConCupoMayorA(cupo);
+    }
+
+    public List<Object[]> obtenerClasesPorTiempoYCupo(Integer duracion, Integer cupo) {
+        return claseRepository.obtenerClasesPorTiempoYCupo(duracion, cupo);
+    }
 }

@@ -29,4 +29,16 @@ public class SuscripcionController {
         System.out.println("Suscripción registrada");
         return new ResponseEntity<>(suscripcionService.registrarSuscripcion(suscripcion), HttpStatus.CREATED);
     }
+
+    @GetMapping("/suscripciones/vigentes")
+    public ResponseEntity<List<Object[]>> obtenerSuscripcionesVigentes() {
+        System.out.println("Lista de suscripciones vigentes");
+        return new ResponseEntity<>(suscripcionService.obtenerSuscripcionesVigentes(), HttpStatus.OK);
+    }
+
+    @GetMapping("/suscripciones/clientes/inactiva")
+    public ResponseEntity<List<Object[]>> obtenerClientesSinSuscripcionActiva() {
+        System.out.println("Lista de clientes sin suscripcion");
+        return new ResponseEntity<>(suscripcionService.obtenerClientesSinSuscripcionActiva(), HttpStatus.OK);
+    }
 }

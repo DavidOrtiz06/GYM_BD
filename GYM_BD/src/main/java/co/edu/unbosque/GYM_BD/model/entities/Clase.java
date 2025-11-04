@@ -10,7 +10,7 @@ public class Clase implements Serializable {
 
     @Id
     @Column(name = "ID_CLASE")
-    private int idClase;
+    private Integer idClase;
 
     @Column(name = "NOMBRE_CLASE")
     private String nombre;
@@ -18,20 +18,17 @@ public class Clase implements Serializable {
     @Column(name = "DURACION_CLASE")
     private String duracion;
 
-    @Column(name = "CUPO_CLASE")
-    private int cupo;
-
     @ManyToOne
     @JoinColumn(name = "NUM_DOC_ENTRENADOR")
     private Entrenador entrenador;
 
     public Clase() {}
 
-    public int getIdClase() {
+    public Integer getIdClase() {
         return idClase;
     }
 
-    public void setIdClase(int idClase) {
+    public void setIdClase(Integer idClase) {
         this.idClase = idClase;
     }
 
@@ -49,14 +46,6 @@ public class Clase implements Serializable {
 
     public void setDuracion(String duracion) {
         this.duracion = duracion;
-    }
-
-    public int getCupo() {
-        return cupo;
-    }
-
-    public void setCupo(int cupo) {
-        this.cupo = cupo;
     }
 
     public Entrenador getEntrenador() {

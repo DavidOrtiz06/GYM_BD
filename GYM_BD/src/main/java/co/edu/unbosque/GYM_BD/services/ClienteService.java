@@ -32,4 +32,8 @@ public class ClienteService {
         cliente.setEstado("Activo");
         return modelMapper.map(clienteRepository.save(modelMapper.map(cliente, Cliente.class)), ClienteDTO.class);
     }
+
+    public List<Object[]> obtenerClientesConMultiplesClases(Integer totalClases) {
+        return clienteRepository.obtenerClientesConMultiplesClases(totalClases);
+    }
 }

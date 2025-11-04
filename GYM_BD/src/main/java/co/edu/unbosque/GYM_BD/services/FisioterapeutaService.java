@@ -33,4 +33,8 @@ public class FisioterapeutaService {
         fisioterapeuta.setCorreo(fisioterapeuta.getNombre().replace(" ", ".").toLowerCase() + "@gymfit.com");
         return modelMapper.map(fisioterapeutaRepository.save(modelMapper.map(fisioterapeuta, Fisioterapeuta.class)), FisioterapeutaDTO.class);
     }
+
+    public List<Object[]> obtenerClientesPorFisioterapeuta(String numDocumentoFisioterapeuta) {
+        return fisioterapeutaRepository.obtenerClientesPorFisioterapeuta(numDocumentoFisioterapeuta);
+    }
 }

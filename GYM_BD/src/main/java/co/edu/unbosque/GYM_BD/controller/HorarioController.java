@@ -29,4 +29,16 @@ public class HorarioController {
         System.out.println("Horario registrado");
         return new ResponseEntity<>(horarioService.registrarHorario(horario), HttpStatus.CREATED);
     }
+
+    @PutMapping("/horarios/{idHorario}/cupo")
+    public ResponseEntity<HorarioDTO> actualizarHorario(@PathVariable Integer idHorario, @RequestBody HorarioDTO horario) {
+        System.out.println("Horario actualizado");
+        return new ResponseEntity<>(horarioService.actualizarHorario(idHorario, horario.getCupo()), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/horarios/{clase}")
+    public ResponseEntity<List<Object[]>> obtenerHorariosPorClase(@PathVariable String clase) {
+        System.out.println("Lista de horarios de la clase: " + clase);
+        return new ResponseEntity<>(horarioService.obtenerHorariosPorClase(clase), HttpStatus.OK);
+    }
 }

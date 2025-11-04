@@ -12,7 +12,7 @@ public class Suscripcion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SUSCRIPCION")
-    private int idSuscripcion;
+    private Integer idSuscripcion;
 
     @Column(name = "FECHA_INICIO_SUSCRIPCION")
     private LocalDateTime fechaInicio;
@@ -24,15 +24,15 @@ public class Suscripcion implements Serializable {
     private String estado;
 
     @Column(name = "MESES_SUSCRIPCION")
-    private int meses;
+    private Integer meses;
 
     public Suscripcion() {}
 
-    public int getIdSuscripcion() {
+    public Integer getIdSuscripcion() {
         return idSuscripcion;
     }
 
-    public void setIdSuscripcion(int idSuscripcion) {
+    public void setIdSuscripcion(Integer idSuscripcion) {
         this.idSuscripcion = idSuscripcion;
     }
 
@@ -60,11 +60,11 @@ public class Suscripcion implements Serializable {
         this.estado = estado;
     }
 
-    public int getMeses() {
+    public Integer getMeses() {
         return meses;
     }
 
-    public void setMeses(int meses) {
+    public void setMeses(Integer meses) {
         this.meses = meses;
     }
 }

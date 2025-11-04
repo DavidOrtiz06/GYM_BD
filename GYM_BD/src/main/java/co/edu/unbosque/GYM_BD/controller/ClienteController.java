@@ -29,4 +29,10 @@ public class ClienteController {
         System.out.println("Cliente registrado");
         return new ResponseEntity<>(clienteService.registrarCliente(cliente), HttpStatus.CREATED);
     }
+
+    @GetMapping("/clientes/clases/{totalClases}")
+    public ResponseEntity<List<Object[]>> obtenerClientesConMultiplesClases(@PathVariable Integer totalClases) {
+        System.out.println("Lista de clientes inscritos en mas de una clase");
+        return new ResponseEntity<>(clienteService.obtenerClientesConMultiplesClases(totalClases), HttpStatus.OK);
+    }
 }

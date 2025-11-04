@@ -31,4 +31,14 @@ public class HorarioService {
     public HorarioDTO registrarHorario(HorarioDTO horario) {
         return modelMapper.map(horarioRepository.save(modelMapper.map(horario, Horario.class)), HorarioDTO.class);
     }
+
+    public HorarioDTO actualizarHorario(Integer idHorario, Integer cupo) {
+        Horario horario = horarioRepository.findById(idHorario).get();
+        horario.setCupo(cupo);
+        return modelMapper.map(horarioRepository.save(horario), HorarioDTO.class);
+    }
+
+    public List<Object[]> obtenerHorariosPorClase(String clase) {
+        return horarioRepository.obtenerHorariosPorClase(clase);
+    }
 }

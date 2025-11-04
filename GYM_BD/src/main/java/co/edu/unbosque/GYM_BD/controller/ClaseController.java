@@ -29,4 +29,16 @@ public class ClaseController {
         System.out.println("Clase registrada");
         return new ResponseEntity<>(claseService.registrarClase(clase), HttpStatus.CREATED);
     }
+
+    @GetMapping("/clases/{cupo}")
+    public ResponseEntity<List<Object[]>> obtenerClasesConCupoMayorA(@PathVariable Integer cupo) {
+        System.out.println("Lista de clases con cupo mayor a: " + cupo);
+        return new ResponseEntity<>(claseService.obtenerClasesConCupoMayorA(cupo), HttpStatus.OK);
+    }
+
+    @GetMapping("/clases/{duracion}/{cupo}")
+    public ResponseEntity<List<Object[]>> obtenerClasesPorTiempoYCupo(@PathVariable Integer duracion, @PathVariable Integer cupo) {
+        System.out.println("Lista de clases por duración de: " + duracion + " y cupo de: " + cupo);
+        return new ResponseEntity<>(claseService.obtenerClasesPorTiempoYCupo(duracion, cupo), HttpStatus.OK);
+    }
 }

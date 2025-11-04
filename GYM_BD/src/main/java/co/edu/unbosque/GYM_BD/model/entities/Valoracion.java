@@ -14,7 +14,7 @@ public class Valoracion implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_VALORACION")
-    private int idValoracion;
+    private Integer idValoracion;
 
     @Column(name = "FECHA_VALORACION")
     private LocalDateTime fecha;
@@ -38,11 +38,11 @@ public class Valoracion implements Serializable {
 
     public Valoracion() {}
 
-    public int getIdValoracion() {
+    public Integer getIdValoracion() {
         return idValoracion;
     }
 
-    public void setIdValoracion(int idValoracion) {
+    public void setIdValoracion(Integer idValoracion) {
         this.idValoracion = idValoracion;
     }
 
