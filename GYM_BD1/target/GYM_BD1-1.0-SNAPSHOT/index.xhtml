@@ -15,87 +15,269 @@
 
 <h:body class="container mt-4" style="max-width: 96%">
 
+    <h:form id="formBotones" style="margin-bottom: 20px;">
+        <div class="d-flex justify-content-center align-items-center gap-3 flex-wrap">
+
+            <p:commandButton value="Clientes" icon="pi pi-users" styleClass="ui-button-info"
+                             action="#{tablaBean.listarEntidad('cliente')}" update=":formTabla"
+                             style="min-width:140px; font-weight:bold;"/>
+
+            <p:commandButton value="Fisioterapeutas" icon="pi pi-heart" styleClass="ui-button-danger"
+                             action="#{tablaBean.listarEntidad('fisioterapeuta')}" update=":formTabla"
+                             style="min-width:160px; font-weight:bold;"/>
+
+            <p:commandButton value="Entrenadores" icon="pi pi-briefcase" styleClass="ui-button-warning"
+                             action="#{tablaBean.listarEntidad('entrenador')}" update=":formTabla"
+                             style="min-width:140px; font-weight:bold;"/>
+
+            <p:commandButton value="Suscripciones" icon="pi pi-id-card" styleClass="ui-button-success"
+                             action="#{tablaBean.listarEntidad('suscripcion')}" update=":formTabla"
+                             style="min-width:140px; font-weight:bold;"/>
+
+            <p:commandButton value="Valoraciones" icon="pi pi-chart-bar" styleClass="ui-button-secondary"
+                             action="#{tablaBean.listarEntidad('valoracion')}" update=":formTabla"
+                             style="min-width:140px; font-weight:bold;"/>
+
+            <p:commandButton value="Clases" icon="pi pi-bolt" styleClass="ui-button-help"
+                             action="#{tablaBean.listarEntidad('horario')}" update=":formTabla"
+                             style="min-width:140px; font-weight:bold;"/>
+        </div>
+    </h:form>
+
     <h:form id="formTabla">
         <p:messages id="msgsSalida" showDetail="false" closable="true"
                     style="position:absolute; top:10px; left:10px; width:450px; z-index:1000;" />
         <div class="card p-4 shadow-lg">
+            <div class="d-flex justify-content-between align-items-center flex-wrap mb-3" style="gap: 1rem; margin: 20px;">
+                <div class="d-flex align-items-center" style="gap: 1rem;">
+                    <p:speedDial radius="120" direction="up-right" type="quarter-circle"
+                                 buttonStyleClass="ui-button-success" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                        <p:menuitem value=" 1" actionListener="#{suscripcionBean.seleccionarMeses(1)}"
+                                    icon="pi pi-calendar" oncomplete="PF('dlgSuscripcion').show()" update=":formSuscripcion"/>
+                        <p:menuitem value=" 3" actionListener="#{suscripcionBean.seleccionarMeses(3)}"
+                                    icon="pi pi-calendar" oncomplete="PF('dlgSuscripcion').show()" update=":formSuscripcion"/>
+                        <p:menuitem value=" 6" actionListener="#{suscripcionBean.seleccionarMeses(6)}"
+                                    icon="pi pi-calendar" oncomplete="PF('dlgSuscripcion').show()" update=":formSuscripcion"/>
+                        <p:menuitem value=" 12" actionListener="#{suscripcionBean.seleccionarMeses(12)}"
+                                    icon="pi pi-calendar" oncomplete="PF('dlgSuscripcion').show()" update=":formSuscripcion"/>
+                    </p:speedDial>
 
-            <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; margin: 20px;">
-                <h:outputLabel value="ID Cliente"/>
-                <p:inputText id="idVisitante" value="#{clienteBean.idClienteFiltro}" style="width: 200px;">
-                    <p:keyFilter mask="num"/>
-                </p:inputText>
+                    <p:commandButton value="Multiples Clases" rendered="#{tablaBean.tipoActual eq 'cliente'}" icon="pi pi-users"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaVariasClases').show()"
+                                     update=":formTablaVariasClases" style="font-weight:bold;"/>
 
-                <p:commandButton value="Buscar"
-                                 action="#{clienteBean.buscarClientes()}"
-                                 update="formTabla"
-                                 styleClass="ui-button-primary"
-                                 icon="pi pi-search"
-                                 style="margin-left: 10px;"/>
-            </div>
+                    <p:commandButton value="Nuevo Fisioterapeuta" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}"
+                                     action="#{fisioterapeutaBean.crearFisioterapeuta()}" icon="pi pi-plus-circle"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgRegistrarFisioterapeuta').show()"
+                                     update=":formRegistroF" style="font-weight:bold;"/>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <p:commandButton value="Nuevo Cliente" action="#{clienteBean.crearCliente()}"
-                                 icon="pi pi-plus-circle"
-                                 styleClass="ui-button-success"
-                                 oncomplete="PF('dlgRegistrarCliente').show()"
-                                 update=":formRegistro"/>
+                    <p:commandButton value="Listado Clientes" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}" icon="pi pi-users"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaClienteFisio').show()"
+                                     update=":formTablaClienteFisio" style="font-weight:bold;"/>
 
-                <div class="d-flex gap-2">
-                    <p:commandButton value="1 Mes"
-                                     icon="pi pi-star"
-                                     style="background-color: #f1c40f; color: black; border: none;"
-                                     actionListener="#{suscripcionBean.seleccionarMeses(1)}"
-                                     oncomplete="PF('dlgSuscripcion').show()"
-                                     update=":formSuscripcion"/>
-                    <p:commandButton value="3 Meses"
-                                     icon="pi pi-star"
-                                     style="background-color: #f1c40f; color: black; border: none;"
-                                     actionListener="#{suscripcionBean.seleccionarMeses(3)}"
-                                     oncomplete="PF('dlgSuscripcion').show()"
-                                     update=":formSuscripcion"/>
-                    <p:commandButton value="6 Meses"
-                                     icon="pi pi-star"
-                                     style="background-color: #f1c40f; color: black; border: none;"
-                                     actionListener="#{suscripcionBean.seleccionarMeses(6)}"
-                                     oncomplete="PF('dlgSuscripcion').show()"
-                                     update=":formSuscripcion"/>
-                    <p:commandButton value="12 Meses"
-                                     icon="pi pi-star"
-                                     style="background-color: #f1c40f; color: black; border: none;"
-                                     actionListener="#{suscripcionBean.seleccionarMeses(12)}"
-                                     oncomplete="PF('dlgSuscripcion').show()"
-                                     update=":formSuscripcion"/>
+                    <p:commandButton value="Nuevo Entrenador" rendered="#{tablaBean.tipoActual eq 'entrenador'}"
+                                     action="#{entrenadorBean.crearEntrenador()}" icon="pi pi-plus-circle"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgRegistrarEntrenador').show()"
+                                     update=":formRegistroE" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Turnos" rendered="#{tablaBean.tipoActual eq 'entrenador'}" icon="pi pi-address-book"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaTurnoE').show()"
+                                     update=":formTablaTurnoE" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Nueva Valoración" rendered="#{tablaBean.tipoActual eq 'valoracion'}"
+                                     action="#{valoracionBean.crearValoracion()}" icon="pi pi-plus-circle"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgRegistrarValoracion').show()"
+                                     update=":formRegistroV" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Estado Valoración" rendered="#{tablaBean.tipoActual eq 'valoracion'}" icon="pi pi-list-check"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaEstadoValoracion').show()"
+                                     update=":formTablaEstadoValoracion" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Fecha Valoración" rendered="#{tablaBean.tipoActual eq 'valoracion'}" icon="pi pi-calendar-clock"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaFechaValoracion').show()"
+                                     update=":formTablaFechaValoracion" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Horarios Clase" rendered="#{tablaBean.tipoActual eq 'horario'}" icon="pi pi-calendar"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaClase').show()"
+                                     update=":formTablaClase" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Clases Por Cupo" rendered="#{tablaBean.tipoActual eq 'horario'}" icon="pi pi-plus"
+                                     action="#{claseBean.limpiarLista()}"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaCupo').show()"
+                                     update=":formTablaCupo" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Clases Por Duración" rendered="#{tablaBean.tipoActual eq 'horario'}" icon="pi pi-stopwatch"
+                                     action="#{claseBean.limpiarLista()}"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaCupoDuracion').show()"
+                                     update=":formTablaCupoDuracion" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Suscripciones Vigentes" rendered="#{tablaBean.tipoActual eq 'suscripcion'}"
+                                     actionListener="#{suscripcionBean.obtenerSuscripcionesVigentes()}" icon="pi pi-check-square"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaVigente').show()"
+                                     update=":formTablaVigente" style="font-weight:bold;"/>
+
+                    <p:commandButton value="Suscripciones Inactivas" rendered="#{tablaBean.tipoActual eq 'suscripcion'}"
+                                     actionListener="#{suscripcionBean.listarClientesSinSuscripcionActiva()}" icon="pi pi-ban"
+                                     styleClass="ui-button-success" oncomplete="PF('dlgTablaInactiva').show()"
+                                     update=":formTablaInactiva" style="font-weight:bold;"/>
                 </div>
             </div>
+            <p:dataTable id="tablaPrincipal" var="item" value="#{tablaBean.tablaDatos}" style="width:100%;">
 
-            <p:dataTable var="cliente" value="#{clienteBean.clientesFiltrados}">
-                <p:column headerText="Numero Documento">
-                    <h:outputText value="#{cliente.numDocumentoCliente}">
-                        <f:convertNumber type="number" groupingUsed="true"/>
+                <p:column headerText="Numero Documento" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                    <h:outputText value="#{item.numDocumentoCliente}" />
+                </p:column>
+                <p:column headerText="Nombre" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                    <h:outputText value="#{item.nombre}" />
+                </p:column>
+                <p:column headerText="Correo" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                    <h:outputText value="#{item.correo}" />
+                </p:column>
+                <p:column headerText="Numero Telefono" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                    <h:outputText value="#{item.numTelefono}" />
+                </p:column>
+                <p:column headerText="Estado" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                    <h:outputText value="#{item.estado}" />
+                </p:column>
+                <p:column headerText="Detalles Suscripcion" rendered="#{tablaBean.tipoActual eq 'cliente'}">
+                    <p:commandButton actionListener="#{clienteBean.setClienteDto(item)}"
+                                     icon="pi pi-eye" styleClass="rounded-button ui-button-primary"
+                                     oncomplete="PF('dlgDetalles').show()" update=":formDetalles"/>
+                </p:column>
+
+
+                <p:column headerText="Numero Documento" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.numDocumentoEntrenador}" />
+                </p:column>
+                <p:column headerText="Nombre" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.nombre}" />
+                </p:column>
+                <p:column headerText="Correo" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.correo}" />
+                </p:column>
+                <p:column headerText="Numero Telefono" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.numTelefono}" />
+                </p:column>
+                <p:column headerText="Estado" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.estado}" />
+                </p:column>
+                <p:column headerText="Turno" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.turno}" />
+                </p:column>
+                <p:column headerText="Años Experiencia" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.aniosExp}" />
+                </p:column>
+                <p:column headerText="Nivel Formacion" rendered="#{tablaBean.tipoActual eq 'entrenador'}">
+                    <h:outputText value="#{item.nivelFormacion}" />
+                </p:column>
+
+
+                <p:column headerText="Numero Documento" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.numDocumentoFisioterapeuta}" />
+                </p:column>
+                <p:column headerText="Nombre" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.nombre}" />
+                </p:column>
+                <p:column headerText="Correo" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.correo}" />
+                </p:column>
+                <p:column headerText="Numero Telefono" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.numTelefono}" />
+                </p:column>
+                <p:column headerText="estado" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.estado}" />
+                </p:column>
+                <p:column headerText="Turno" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.turno}" />
+                </p:column>
+                <p:column headerText="Años Experiencia" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.aniosExp}" />
+                </p:column>
+                <p:column headerText="Especialidad" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.especialidad}" />
+                </p:column>
+                <p:column headerText="Numero Licencia" rendered="#{tablaBean.tipoActual eq 'fisioterapeuta'}">
+                    <h:outputText value="#{item.numLicencia}" />
+                </p:column>
+
+
+                <p:column headerText="ID Suscripción" rendered="#{tablaBean.tipoActual eq 'suscripcion'}">
+                    <h:outputText value="#{item.idSuscripcion}"/>
+                </p:column>
+                <p:column headerText="Meses" rendered="#{tablaBean.tipoActual eq 'suscripcion'}">
+                    <h:outputText value="#{item.meses}" />
+                </p:column>
+                <p:column headerText="Fecha Inicio" rendered="#{tablaBean.tipoActual eq 'suscripcion'}">
+                    <h:outputText value="#{item.fechaInicio}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
                     </h:outputText>
                 </p:column>
-
-                <p:column headerText="Nombre">
-                    <h:outputText value="#{cliente.nombre}"/>
+                <p:column headerText="Fecha Fin" rendered="#{tablaBean.tipoActual eq 'suscripcion'}">
+                    <h:outputText value="#{item.fechaFin}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Estado" rendered="#{tablaBean.tipoActual eq 'suscripcion'}">
+                    <h:outputText value="#{item.estado}" />
                 </p:column>
 
-                <p:column headerText="Correo">
-                    <h:outputText value="#{cliente.correo}"/>
+
+                <p:column headerText="ID Valoración" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <h:outputText value="#{item.idValoracion}" />
+                </p:column>
+                <p:column headerText="Info Cliente" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <p:commandButton actionListener="#{valoracionBean.setValoracionDto(item)}"
+                                     icon="pi pi-eye" styleClass="rounded-button ui-button-primary"
+                                     oncomplete="PF('dlgDetallesC').show()" update=":formDetallesC"/>
+                </p:column>
+                <p:column headerText="Info Fisioterapeuta" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <p:commandButton actionListener="#{valoracionBean.setValoracionDto(item)}"
+                                     icon="pi pi-eye" styleClass="rounded-button ui-button-primary"
+                                     oncomplete="PF('dlgDetallesF').show()" update=":formDetallesF"/>
+                </p:column>
+                <p:column headerText="Fecha" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <h:outputText value="#{item.fecha}">
+                        <f:convertDateTime pattern="dd/MM/yyyy" type="localDateTime"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Hora" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <h:outputText value="#{item.hora}">
+                        <f:convertDateTime pattern="HH:mm" type="localDateTime"/>
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Restricciones" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <h:outputText value="#{item.restricciones}" />
+                    <div>
+                    </div>
+                    <p:commandButton action="#{valoracionBean.actualizar(item)}" icon="pi pi-refresh"
+                                     styleClass="ui-button-warning" oncomplete="PF('dlgActualizarValoracion').show()"
+                                     update=":formActualizarV" style="font-weight:bold;"
+                                     disabled="#{item.estado eq 'Completada'}"/>
+                </p:column>
+                <p:column headerText="Estado" rendered="#{tablaBean.tipoActual eq 'valoracion'}">
+                    <h:outputText value="#{item.estado}" />
                 </p:column>
 
-                <p:column headerText="Numero Telefono">
-                    <h:outputText value="#{cliente.numTelefono}"/>
-                </p:column>
 
-                <p:column headerText="Estado">
-                    <h:outputText value="#{cliente.estado}"/>
+                <p:column headerText="ID Horario" rendered="#{tablaBean.tipoActual eq 'horario'}">
+                    <h:outputText value="#{item.idHorario}"/>
                 </p:column>
-
-                <p:column headerText="Ver Detalles Suscripción">
-                    <p:commandButton actionListener="#{clienteBean.setClienteDto(cliente)}"
-                                     icon="pi pi-pencil" styleClass="ui-button-warning"
-                                     oncomplete="PF('dlgDetalles').show()" update=":formDetalles"/>
+                <p:column headerText="Nombre" rendered="#{tablaBean.tipoActual eq 'horario'}">
+                    <p:commandButton value="#{item.clase.nombre}" actionListener="#{ingresoBean.setHorarioDto(item)}"
+                                     styleClass="ui-button-success" style="font-weight:bold;"
+                                     icon="#{item.clase.nombre eq 'Yoga' ? 'pi pi-star-fill' :
+                                     (item.clase.nombre eq 'Aerobicos' ? 'pi pi-megaphone' :
+                                     (item.clase.nombre eq 'Pilates' ? 'pi pi-trophy' : 'pi pi-circle'))}"
+                                     oncomplete="PF('dlgDetallesH').show()" update=":formDetallesH"/>
+                </p:column>
+                <p:column headerText="Dia" rendered="#{tablaBean.tipoActual eq 'horario'}">
+                    <h:outputText value="#{item.dia}"/>
+                </p:column>
+                <p:column headerText="Hora Incicio" rendered="#{tablaBean.tipoActual eq 'horario'}">
+                    <h:outputText value="#{item.horaInicio}"/>
+                </p:column>
+                <p:column headerText="Hora Fin" rendered="#{tablaBean.tipoActual eq 'horario'}">
+                    <h:outputText value="#{item.horaFin}" />
                 </p:column>
             </p:dataTable>
         </div>
@@ -106,9 +288,10 @@
                     style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
         <p:dialog header="Confirmar Suscripción" widgetVar="dlgSuscripcion" modal="true"
                   resizable="false" width="400" closable="false">
+
             <p:panelGrid columns="1" style="width:100%; text-align:center;">
-                <h:outputText value="¿Desea confirmar la suscripción por:" style="font-weight:bold;"/>
-                <h:outputText value="#{suscripcionBean.suscripcionDto.meses} Mes(es)" style="font-size:18px; color:#f39c12;"/>
+                <h:outputText value="La suscripción elegida es por:" style="font-weight:bold;"/>
+                <h:outputText value="#{suscripcionBean.suscripcionDto.meses} Mes(es)" style="font-size:20px; color:#f39c12;"/>
             </p:panelGrid>
 
             <f:facet name="footer">
@@ -116,9 +299,8 @@
                     <p:commandButton value="Confirmar" icon="pi pi-check"
                                      actionListener="#{suscripcionBean.registrarSuscripcion()}"
                                      update=":formTabla, :formSuscripcion"
-                                     oncomplete="if (!args.validationFailed) { PF('dlgSuscripcion').hide() }"/>
-                    <p:commandButton value="Cancelar" icon="pi pi-times-circle"
-                                     styleClass="ui-button-secondary"
+                                     oncomplete="if (!args.validationFailed) { PF('dlgSuscripcion').hide(); PF('dlgRegistrarCliente').show(); }"/>
+                    <p:commandButton value="Cancelar" icon="pi pi-times-circle" styleClass="ui-button-danger"
                                      onclick="PF('dlgSuscripcion').hide();" type="button"/>
                 </div>
             </f:facet>
@@ -130,6 +312,7 @@
                     style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
         <p:dialog header="Registro Cliente" widgetVar="dlgRegistrarCliente" modal="true"
                   resizable="false" width="550" closable="false">
+
             <p:panelGrid id="grid" columns="2" style="width:100%;">
                 <h:outputLabel for="documentoCliente" value="Número de Documento:"/>
                 <p:inputText id="documentoCliente" value="#{clienteBean.clienteDto.numDocumentoCliente}"
@@ -157,26 +340,220 @@
             </p:panelGrid>
 
             <f:facet name="footer">
-                <p:commandButton value="Registrar" action="#{clienteBean.registrarCliente()}"
+                <p:commandButton value="Registrar Cliente" action="#{clienteBean.registrarCliente()}"
                                  icon="pi pi-save" styleClass="ui-button-success"
-                                 update=":formTabla, formRegistro:grid, formRegistro:msgsRegistro"
+                                 update=":formTabla, formRegistroE:grid, formRegistroE:msgsRegistroE"
                                  oncomplete="if (!args.validationFailed) PF('dlgRegistrarCliente').hide()"/>
-                <p:commandButton value="Cancelar"
-                                 onclick="PF('dlgRegistrarCliente').hide();"
-                                 type="button" icon="pi pi-times-circle"
-                                 styleClass="ui-button-secondary"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formRegistroF">
+        <p:messages id="msgsRegistroF" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+        <p:dialog header="Registro Fisioterapeuta" widgetVar="dlgRegistrarFisioterapeuta" modal="true"
+                  resizable="false" width="550" closable="false">
+
+            <p:panelGrid id="gridF" columns="2" style="width:100%;">
+                <h:outputLabel for="documentoFisioterapeuta" value="Número de Documento:"/>
+                <p:inputText id="documentoFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.numDocumentoFisioterapeuta}"
+                             required="true" requiredMessage="El número de documento es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="nombreFisioterapeuta" value="Nombre:"/>
+                <p:inputText id="nombreFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.nombre}"
+                             required="true" requiredMessage="El nombre es obligatorio">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+                </p:inputText>
+
+                <h:outputLabel for="telefonoFisioterapeuta" value="Número de Teléfono:"/>
+                <p:inputText id="telefonoFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.numTelefono}"
+                             required="true" requiredMessage="El número de teléfono es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="turnoFisioterapeuta" value="Turno:"/>
+                <p:selectOneMenu id="turnoFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.turno}" class="form-select">
+                    <f:selectItem itemLabel="Mañana" itemValue="Mañana"/>
+                    <f:selectItem itemLabel="Tarde" itemValue="Tarde"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="aniosExpFisioterapeuta" value="Años de Experiencia:"/>
+                <p:inputText id="aniosExpFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.aniosExp}"
+                             required="true" requiredMessage="Los años de experiencia son obligatorios">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="especialidadFisioterapeuta" value="Especialidad:"/>
+                <p:selectOneMenu id="especialidadFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.especialidad}" class="form-select">
+                    <f:selectItem itemLabel="Ninguna" itemValue=""/>
+                    <f:selectItem itemLabel="Deportiva" itemValue="Deportiva"/>
+                    <f:selectItem itemLabel="Neurológica" itemValue="Neurologica"/>
+                    <f:selectItem itemLabel="Geriátrica" itemValue="Geriatrica"/>
+                    <f:selectItem itemLabel="Ortopédica" itemValue="Ortopedica"/>
+                    <f:selectItem itemLabel="Pediátrica" itemValue="Pediatrica"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="numLicenciaFisioterapeuta" value="Numero Licencia:"/>
+                <p:inputText id="numLicenciaFisioterapeuta" value="#{fisioterapeutaBean.fisioterapeutaDto.numLicencia}"
+                             required="true" requiredMessage="El numero de licencia es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Registrar Fisioterapeuta" action="#{fisioterapeutaBean.registrarFisioterapeuta()}"
+                                 icon="pi pi-save" styleClass="ui-button-success"
+                                 update=":formTabla, formRegistroF:gridF, formRegistroF:msgsRegistroF"
+                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarFisioterapeuta').hide()"/>
+                <p:commandButton value="Cancelar" onclick="PF('dlgRegistrarFisioterapeuta').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formRegistroE">
+        <p:messages id="msgsRegistroE" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+        <p:dialog header="Registro Entrenador" widgetVar="dlgRegistrarEntrenador" modal="true"
+                  resizable="false" width="550" closable="false">
+
+            <p:panelGrid id="gridE" columns="2" style="width:100%;">
+                <h:outputLabel for="documentoEntrenador" value="Número de Documento:"/>
+                <p:inputText id="documentoEntrenador" value="#{entrenadorBean.entrenadorDto.numDocumentoEntrenador}"
+                             required="true" requiredMessage="El número de documento es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="nombreEntrenador" value="Nombre:"/>
+                <p:inputText id="nombreEntrenador" value="#{entrenadorBean.entrenadorDto.nombre}"
+                             required="true" requiredMessage="El nombre es obligatorio">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+                </p:inputText>
+
+                <h:outputLabel for="telefonoEntrenador" value="Número de Teléfono:"/>
+                <p:inputText id="telefonoEntrenador" value="#{entrenadorBean.entrenadorDto.numTelefono}"
+                             required="true" requiredMessage="El número de teléfono es obligatorio">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="turnoEntrenador" value="Turno:"/>
+                <p:selectOneMenu id="turnoEntrenador" value="#{entrenadorBean.entrenadorDto.turno}" class="form-select">
+                    <f:selectItem itemLabel="Mañana" itemValue="Mañana"/>
+                    <f:selectItem itemLabel="Tarde" itemValue="Tarde"/>
+                    <f:selectItem itemLabel="Noche" itemValue="Noche"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="aniosExpEntrenador" value="Años de Experiencia:"/>
+                <p:inputText id="aniosExpEntrenador" value="#{entrenadorBean.entrenadorDto.aniosExp}"
+                             required="true" requiredMessage="Los años de experiencia son obligatorios">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+
+                <h:outputLabel for="nivelFormacion" value="Nivel de Formacion:"/>
+                <p:selectOneMenu id="nivelFormacion" value="#{entrenadorBean.entrenadorDto.nivelFormacion}" class="form-select">
+                    <f:selectItem itemLabel="Bachiller" itemValue="Bachiller"/>
+                    <f:selectItem itemLabel="Técnico" itemValue="Tecnico"/>
+                    <f:selectItem itemLabel="Tecnólogo" itemValue="Tecnologo"/>
+                    <f:selectItem itemLabel="Profesional" itemValue="Profesional"/>
+                    <f:selectItem itemLabel="Especialización" itemValue="Especializacion"/>
+                    <f:selectItem itemLabel="Master" itemValue="Master"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Registrar Entrenador" action="#{entrenadorBean.registrarEntrenador()}"
+                                 icon="pi pi-save" styleClass="ui-button-success"
+                                 update=":formTabla, formRegistroE:gridE, formRegistroE:msgsRegistroE"
+                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarEntrenador').hide()"/>
+                <p:commandButton value="Cancelar" onclick="PF('dlgRegistrarEntrenador').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formRegistroV">
+        <p:messages id="msgsRegistroV" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+
+        <p:dialog header="Registro Valoración" widgetVar="dlgRegistrarValoracion" modal="true"
+                  resizable="false" width="550" closable="false">
+
+            <p:panelGrid id="gridV" columns="2" style="width:100%;">
+                <h:outputLabel for="fechaValoracion" value="Fecha:"/>
+                <p:datePicker id="fechaValoracion" value="#{valoracionBean.valoracionDto.fecha}" showIcon="true"
+                              pattern="dd/MM/yyyy" required="true" requiredMessage="La fecha es obligatoria"/>
+
+                <h:outputLabel for="horaValoracion" value="Hora:"/>
+                <p:datePicker id="horaValoracion" value="#{valoracionBean.valoracionDto.hora}" timeOnly="true" hourFormat="24"
+                              showIcon="true" pattern="HH:mm" required="true" requiredMessage="La hora es obligatoria"
+                              mindate="07:00" maxdate="18:00"/>
+
+                <h:outputLabel for="cliente" value="Cliente:"/>
+                <p:selectOneMenu id="cliente" value="#{valoracionBean.clienteDto.numDocumentoCliente}"
+                                 class="form-select" filter="true" filterNormalize="true">
+                    <f:selectItems value="#{clienteBean.listarClientes()}" var="cliente"
+                                   itemLabel="#{cliente.nombre}" itemValue="#{cliente.numDocumentoCliente}"/>
+                </p:selectOneMenu>
+
+                <h:outputLabel for="fisioterapeuta" value="Fisioterapeuta:"/>
+                <p:selectOneMenu id="fisioterapeuta" value="#{valoracionBean.fisioterapeutaDto.numDocumentoFisioterapeuta}"
+                                 class="form-select" filter="true" filterNormalize="true">
+                    <f:selectItems value="#{fisioterapeutaBean.listarFisioterapeutas()}" var="fisioterapeuta"
+                                   itemLabel="#{fisioterapeuta.nombre}" itemValue="#{fisioterapeuta.numDocumentoFisioterapeuta}"/>
+                </p:selectOneMenu>
+
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Registrar Valoración" action="#{valoracionBean.registrarValoracion()}"
+                                 icon="pi pi-save" styleClass="ui-button-success"
+                                 update=":formTabla, formRegistroV:gridV, formRegistroV:msgsRegistroV"
+                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarValoracion').hide()"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times-circle" styleClass="ui-button-danger"
+                                 onclick="PF('dlgRegistrarValoracion').hide()" type="button"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formActualizarV">
+        <p:messages id="msgsActualizarV" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+
+        <p:dialog header="Actualizar Valoración" widgetVar="dlgActualizarValoracion" modal="true"
+                  resizable="false" width="550" closable="false" style="text-align:center;">
+
+            <p:panelGrid id="gridActV" columns="1" style="width:100%; text-align:left;">
+                <h:outputLabel for="restricciones" value="Restricciones:"
+                               style="font-weight:bold; margin-bottom:5px;"/>
+                <p:inputTextarea id="restricciones" value="#{valoracionBean.restricciones}"
+                                 required="true" requiredMessage="Ingrese las restricciones del cliente"
+                                 maxlength="500" counter="@next" counterTemplate="{0} caracteres restantes."
+                                 autoResize="false" style="width:100%; height:100px;" />
+                <h:outputText id="charCount"
+                              style="font-size:12px; color:gray; display:block; text-align:right; margin-top:3px;" />
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Actualizar" action="#{valoracionBean.actualizarValoracion()}"
+                                 icon="pi pi-save" styleClass="ui-button-success"
+                                 update=":formTabla, formActualizarV:gridActV, formActualizarV:msgsActualizarV"
+                                 oncomplete="if (!args.validationFailed) PF('dlgActualizarValoracion').hide()"/>
+                <p:commandButton value="Cancelar" onclick="PF('dlgActualizarValoracion').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
             </f:facet>
         </p:dialog>
     </h:form>
 
     <h:form id="formDetalles">
-        <p:dialog header="Detalle Visitante" widgetVar="dlgDetalles" modal="true" resizable="false" width="550">
-            <p:panelGrid columns="2" style="width:100%;">
+        <p:dialog header="Detalle Suscripción" widgetVar="dlgDetalles" modal="true" resizable="false" width="550">
 
+            <p:panelGrid columns="2" style="width:100%;">
                 <h:outputLabel value="ID Suscripcion:"/>
                 <h:outputText value="#{clienteBean.clienteDto.suscripcion.idSuscripcion}"/>
 
-                <h:outputLabel value="Mes(es):"/>
+                <h:outputLabel value="Meses:"/>
                 <h:outputText value="#{clienteBean.clienteDto.suscripcion.meses}"/>
 
                 <h:outputLabel value="Fecha Incio:"/>
@@ -191,12 +568,454 @@
 
                 <h:outputLabel value="Estado:"/>
                 <h:outputText value="#{clienteBean.clienteDto.suscripcion.estado}"/>
-
             </p:panelGrid>
 
             <f:facet name="footer">
                 <p:commandButton value="Cerrar" onclick="PF('dlgDetalles').hide()" type="button"
-                                 icon="pi pi-times-circle" styleClass="ui-button-secondary"/>
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formDetallesC">
+        <p:dialog header="Detalle Cliente" widgetVar="dlgDetallesC" modal="true" resizable="false" width="550">
+
+            <p:panelGrid columns="2" style="width:100%;">
+                <h:outputLabel value="Numero Documento:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.cliente.numDocumentoCliente}"/>
+
+                <h:outputLabel value="Nombre:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.cliente.nombre}"/>
+
+                <h:outputLabel value="Correo:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.cliente.correo}"/>
+
+                <h:outputLabel value="Numero Telefono:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.cliente.numTelefono}"/>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgDetallesC').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formDetallesF">
+        <p:dialog header="Detalle Fisioterapeuta" widgetVar="dlgDetallesF" modal="true" resizable="false" width="550">
+
+            <p:panelGrid columns="2" style="width:100%;">
+                <h:outputLabel value="Numero Documento:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.fisioterapeuta.numDocumentoFisioterapeuta}"/>
+
+                <h:outputLabel value="Nombre:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.fisioterapeuta.nombre}"/>
+
+                <h:outputLabel value="Correo:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.fisioterapeuta.correo}"/>
+
+                <h:outputLabel value="Numero Telefono:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.fisioterapeuta.numTelefono}"/>
+
+                <h:outputLabel value="Numero Licencia:"/>
+                <h:outputText value="#{valoracionBean.valoracionDto.fisioterapeuta.numLicencia}"/>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgDetallesF').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formDetallesH">
+        <p:dialog header="Clientes Ingresados" widgetVar="dlgDetallesH" modal="true" resizable="false"
+                  width="1000" height="400" closable="false" style="padding: 1.5rem">
+            <div class="d-flex justify-content-between align-items-start flex-wrap mb-3" style="gap: 1.5rem;">
+                <div class="d-flex align-items-center" style="gap: 0.8rem;">
+                    <p:commandButton value="Nuevo Ingreso" action="#{ingresoBean.crearIngreso()}"
+                                     icon="pi pi-plus-circle" styleClass="ui-button-success"
+                                     oncomplete="PF('dlgRegistrarIngreso').show()"
+                                     update=":formRegistroI" style="font-weight:bold;"
+                                     disabled="#{ingresoBean.horarioDto.cupo le 0}"/>
+                </div>
+                <div class="d-flex align-items-center flex-wrap"
+                     style="gap: 2rem; font-size: 1rem; color: #333;">
+                    <div>
+                        <strong>Cupos Restante: </strong>
+                        <h:outputText value="#{ingresoBean.horarioDto.cupo}"/>
+                    </div>
+                    <div>
+                        <strong>Duración: </strong>
+                        <h:outputText value="#{ingresoBean.horarioDto.clase.duracion}"/> min
+                    </div>
+                    <div>
+                        <strong>Entrenador: </strong>
+                        <h:outputText value="#{ingresoBean.horarioDto.clase.entrenador.nombre}"/>
+                    </div>
+                </div>
+            </div>
+            <p:dataTable id="tablaSecundaria" var="ingreso" value="#{ingresoBean.ingresosPorHorario}" style="width:100%;">
+                <p:column headerText="Numero Documento">
+                    <h:outputText value="#{ingreso.cliente.numDocumentoCliente}"/>
+                </p:column>
+
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{ingreso.cliente.nombre}"/>
+                </p:column>
+
+                <p:column headerText="Correo">
+                    <h:outputText value="#{ingreso.cliente.correo}"/>
+                </p:column>
+
+                <p:column headerText="Numero Telefono">
+                    <h:outputText value="#{ingreso.cliente.numTelefono}"/>
+                </p:column>
+            </p:dataTable>
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgDetallesH').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formRegistroI">
+        <p:messages id="msgsRegistroI" showDetail="false" closable="true"
+                    style="position:fixed; top:10px; left:10px; width:450px; z-index:1000;" />
+
+        <p:dialog header="Registro Ingreso" widgetVar="dlgRegistrarIngreso" modal="true"
+                  resizable="false" width="550" closable="false">
+
+            <p:panelGrid id="gridI" columns="2" style="width:100%;">
+                <h:outputLabel for="clienteIngreso" value="Cliente:"/>
+                <p:selectOneMenu id="clienteIngreso" value="#{ingresoBean.clienteDto.numDocumentoCliente}"
+                                 class="form-select" filter="true" filterNormalize="true">
+                    <f:selectItems value="#{clienteBean.listarClientes()}" var="cliente"
+                                   itemLabel="#{cliente.nombre}" itemValue="#{cliente.numDocumentoCliente}"/>
+                </p:selectOneMenu>
+            </p:panelGrid>
+
+            <f:facet name="footer">
+                <p:commandButton value="Registrar Ingreso" action="#{ingresoBean.registrarIngreso()}"
+                                 icon="pi pi-save" styleClass="ui-button-success"
+                                 update=":formDetallesH, formRegistroI:gridI, formRegistroI:msgsRegistroI"
+                                 oncomplete="if (!args.validationFailed) PF('dlgRegistrarIngreso').hide()"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times-circle" styleClass="ui-button-danger"
+                                 onclick="PF('dlgRegistrarIngreso').hide()" type="button"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaClase">
+        <p:dialog header="Horarios de Clase" widgetVar="dlgTablaClase"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el nombre de la clase:" style="font-weight:bold;"/>
+                <p:inputText id="nombreClase" value="#{horarioBean.nombreClase}" style="width:100px;">
+                    <p:keyFilter regEx="/[ABCDEFGHIJKLMNÑOPQRSTUVWXYZ ]/i"/>
+                </p:inputText>
+                <p:commandButton actionListener="#{horarioBean.obtenerHorariosPorClase(horarioBean.nombreClase)}"
+                                 update="tablaNombreClase" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaNombreClase" value="#{horarioBean.horariosClase}" var="h" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Día">
+                    <h:outputText value="#{h[0]}" />
+                </p:column>
+                <p:column headerText="Hora Inicio">
+                    <h:outputText value="#{h[1]}"/>
+                </p:column>
+                <p:column headerText="Hora Fin">
+                    <h:outputText value="#{h[2]}"/>
+                </p:column>
+                <p:column headerText="Cupo">
+                    <h:outputText value="#{h[3]}" />
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaClase').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaVigente">
+        <p:dialog header="Suscripciones vigentes:" widgetVar="dlgTablaVigente"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <p:dataTable value="#{suscripcionBean.suscripcionesVigentes}" var="v" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Nombre Cliente">
+                    <h:outputText value="#{v[0]}" />
+                </p:column>
+                <p:column headerText="Correo Cliente">
+                    <h:outputText value="#{v[1]}"/>
+                </p:column>
+                <p:column headerText="Fecha Fin">
+                    <h:outputText value="#{v[2]}" />
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaVigente').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaInactiva">
+        <p:dialog header="Suscripciones inactivas:" widgetVar="dlgTablaInactiva"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <p:dataTable value="#{suscripcionBean.suscripcionesInactivas}" var="i" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Documento Cliente">
+                    <h:outputText value="#{i[0]}" />
+                </p:column>
+                <p:column headerText="Nombre Cliente">
+                    <h:outputText value="#{i[1]}"/>
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaInactiva').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaVariasClases">
+        <p:dialog header="Clientes ingresados en varias clases:" widgetVar="dlgTablaVariasClases"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el total de clases:" style="font-weight:bold;"/>
+                <p:inputText id="clases" value="#{clienteBean.totalClases}" style="width:100px;">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+                <p:commandButton actionListener="#{clienteBean.obtenerClientesClases(clienteBean.totalClases)}"
+                                 update="tablaVariasClases" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaVariasClases" value="#{clienteBean.clientesConMultiplesClases}" var="m" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Numero Documento">
+                    <h:outputText value="#{m[0]}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{m[1]}" />
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaVariasClases').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaCupo">
+        <p:dialog header="Clases con cupo mayor a:" widgetVar="dlgTablaCupo"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el cupo:" style="font-weight:bold;"/>
+                <p:inputText id="valorCupo" value="#{claseBean.cupoBusqueda}" style="width:100px;" placeholder="Ej: 15">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+                <p:commandButton actionListener="#{claseBean.obtenerClasesConCupoMayorA(claseBean.cupoBusqueda)}"
+                                 update="tablaCupo" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaCupo" value="#{claseBean.clasesFiltradas}" var="c" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{c[0]}" />
+                </p:column>
+                <p:column headerText="Duracion">
+                    <h:outputText value="#{c[1]}" />
+                </p:column>
+                <p:column headerText="Cupo">
+                    <h:outputText value="#{c[2]}"/>
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaCupo').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaCupoDuracion">
+        <p:dialog header="Clases con cupo menor a y duración mayor a:" widgetVar="dlgTablaCupoDuracion"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el cupo:" style="font-weight:bold;"/>
+                <p:inputText id="cupoValor" value="#{claseBean.cupoBusqueda}" style="width:100px;">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+                <h:outputLabel value="Ingrese la duracion:" style="font-weight:bold;"/>
+                <p:inputText id="duracionValor" value="#{claseBean.duracionBusqueda}" style="width:100px;">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+                <p:commandButton actionListener="#{claseBean.obtenerClasesPorTiempoYCupo(claseBean.duracionBusqueda, claseBean.cupoBusqueda)}"
+                                 update="tablaCupoDuracion" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaCupoDuracion" value="#{claseBean.clasesFiltradas}" var="c" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{c[0]}" />
+                </p:column>
+                <p:column headerText="Duracion">
+                    <h:outputText value="#{c[1]}" />
+                </p:column>
+                <p:column headerText="Cupo">
+                    <h:outputText value="#{c[2]}"/>
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaCupoDuracion').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaEstadoValoracion">
+        <p:dialog header="Estado valoraciones:" widgetVar="dlgTablaEstadoValoracion"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el estado:" style="font-weight:bold;"/>
+                <p:selectOneMenu id="estadoValoracion" value="#{valoracionBean.estadoValoracion}" class="form-select">
+                    <f:selectItem itemLabel="Completada" itemValue="Completada"/>
+                    <f:selectItem itemLabel="Pendiente" itemValue="Pendiente"/>
+                </p:selectOneMenu>
+                <p:commandButton actionListener="#{valoracionBean.obtenerValoracionesPorEstado(valoracionBean.estadoValoracion)}"
+                                 update="tablaEstado" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaEstado" value="#{valoracionBean.valoracionesPorEstado}" var="e" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Fecha">
+                    <h:outputText value="#{e[0]}" />
+                </p:column>
+                <p:column headerText="Hora">
+                    <h:outputText value="#{e[1]}" />
+                </p:column>
+                <p:column headerText="Estado">
+                    <h:outputText value="#{e[2]}"/>
+                </p:column>
+                <p:column headerText="Nombre Fisioterapeuta">
+                    <h:outputText value="#{e[3]}" />
+                </p:column>
+                <p:column headerText="Nombre Cliente">
+                    <h:outputText value="#{e[4]}"/>
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaEstadoValoracion').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaFechaValoracion">
+        <p:dialog header="Fecha valoraciones:" widgetVar="dlgTablaFechaValoracion"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese la fecha:" style="font-weight:bold;"/>
+                <p:datePicker id="fechaValoracionFiltro" value="#{valoracionBean.fechaValoracion}" showIcon="true" pattern="dd/MM/yyyy"/>
+                <p:commandButton actionListener="#{valoracionBean.obtenerValoracionesPorFecha(valoracionBean.fechaValoracion)}"
+                                 update="tablaFecha" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaFecha" value="#{valoracionBean.valoracionesPorFecha}" var="f" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Fecha">
+                    <h:outputText value="#{f[0]}" />
+                </p:column>
+                <p:column headerText="Hora">
+                    <h:outputText value="#{f[1]}" />
+                </p:column>
+                <p:column headerText="Estado">
+                    <h:outputText value="#{f[2]}"/>
+                </p:column>
+                <p:column headerText="Nombre Fisioterapeuta">
+                    <h:outputText value="#{f[3]}" />
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaFechaValoracion').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaClienteFisio">
+        <p:dialog header="Clientes atendidos por fisioterapeuta:" widgetVar="dlgTablaClienteFisio"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el documento del fisioterapeuta:" style="font-weight:bold;"/>
+                <p:inputText id="numDocumento" value="#{fisioterapeutaBean.numDocumentoFisioterapeuta}" style="width:100px;">
+                    <p:keyFilter mask="num"/>
+                </p:inputText>
+                <p:commandButton actionListener="#{fisioterapeutaBean.obtenerClientesPorFisioterapeuta(fisioterapeutaBean.numDocumentoFisioterapeuta)}"
+                                 update="tablaClienteFisio" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaClienteFisio" value="#{fisioterapeutaBean.clientesPorFisioterapeuta}" var="f" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Numero Documento">
+                    <h:outputText value="#{f[0]}" />
+                </p:column>
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{f[1]}" />
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaClienteFisio').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
+            </f:facet>
+        </p:dialog>
+    </h:form>
+
+    <h:form id="formTablaTurnoE">
+        <p:dialog header="Turno entrenadores:" widgetVar="dlgTablaTurnoE"
+                  modal="true" resizable="false" width="700" closable="true">
+
+            <div class="d-flex align-items-center gap-2 mb-3" style="justify-content:center;">
+                <h:outputLabel value="Ingrese el turno:" style="font-weight:bold;"/>
+                <p:selectOneMenu id="turnoE" value="#{entrenadorBean.turno}" class="form-select">
+                    <f:selectItem itemLabel="Mañana" itemValue="Mañana"/>
+                    <f:selectItem itemLabel="Tarde" itemValue="Tarde"/>
+                    <f:selectItem itemLabel="Noche" itemValue="Noche"/>
+                </p:selectOneMenu>
+                <p:commandButton actionListener="#{entrenadorBean.obtenerEntrenadorPorClase(entrenadorBean.turno)}"
+                                 update="tablaTurnoE" styleClass="ui-button-primary" icon="pi pi-search"/>
+            </div>
+
+            <p:dataTable id="tablaTurnoE" value="#{entrenadorBean.entrenadores}" var="e" style="width:100%;"
+                         scrollable="true" scrollHeight="300">
+                <p:column headerText="Nombre">
+                    <h:outputText value="#{e[0]}" />
+                </p:column>
+            </p:dataTable>
+
+            <f:facet name="footer">
+                <p:commandButton value="Cerrar" onclick="PF('dlgTablaTurnoE').hide()" type="button"
+                                 icon="pi pi-times-circle" styleClass="ui-button-danger"/>
             </f:facet>
         </p:dialog>
     </h:form>
